@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question16
+        </title>
+    </head>
+    <body>
+        <script>
+            function turncate(str,tur_Pos,speChar){
+                var str1='';
+                if((typeof (tur_Pos) =="undefined")){
+                    str1+=str+"<br>";
+                }
+                else if((typeof (speChar))=="undefined"){
+                    str1+=  str.substring(0,tur_Pos)+"..."+"<br>";
+                }
+                else{
+                    str1+=str.substring(0,tur_Pos)+speChar+"<br>";
+                }
+
+               
+                return str1;
+            }
+            
+            document.write(turncate('We are doing JS string exercises.'));
+            document.write(turncate('We are doing JS string exercises.',15));
+            document.write(turncate('We are doing JS string exercises.',15,'!!'));
+        </script>
+    </body>
+</html>

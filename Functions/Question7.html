@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question7</title>
+    </head>
+    <body>
+        <script>
+            function countVowels(text){
+                var count=0;
+                for(var i=0;i<text.length;i++){
+                    if(text[i]==="a"||text[i]==="e"||text[i]==="i"||text[i]==="o"||text[i]==="u"){
+                        count=count+1;
+                    }
+                }
+                return count;
+            }
+            document.write(countVowels("The quick brown fox"));
+        </script>
+    </body>
+</html>

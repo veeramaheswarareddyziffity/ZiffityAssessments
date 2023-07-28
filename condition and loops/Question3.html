@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question3
+        </title>
+    </head>
+    <body>
+        <script>
+            var n1=7;
+            var n2=4;
+            var n3=3;
+            var result;
+            if(n1>n2&&n1>n3){
+                if(n2>n3){
+                    result=n1 +","+n2+","+n3;
+                }
+                else{
+                    result=n1 +","+n3+","+n2;
+                }
+            }
+            else if(n2>n1&&n2>n3){
+                if(n1>n3){
+                    result=n2+","+n1+","+n3;
+                }
+                else{
+                    result=n2+","+n3+","+n1;
+                }
+            }
+            else if(n3>n1&&n3>n2){
+                if(n1>n2){
+                    result=n3 +","+n1+","+n2;
+                }
+                else{
+                    result=n3 +","+n2+","+n1;
+                }
+            }
+            alert(result);
+
+
+        </script>
+    </body>
+</html>

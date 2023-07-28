@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question1</title>
+    </head>
+    <body>
+      
+        <script>
+            function reverseNumber(num){
+            var res=0;
+            while(num>0){
+            var num1=num%10;
+            var res=(res*10)+num1;
+            num=Math.floor(num/10);
+            }
+            return res;
+        }
+          document.write(reverseNumber(32243));
+            
+        </script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question7</title>
+    </head>
+    <body>
+        <script>
+            function isIp(str){
+               regexp=/^([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})\.([0-9]{1,3})$/
+               if(regexp.test(str)){
+                 console.log("it is IP Value");
+               }
+               else{
+                console.log("it is not IP Value")
+               }
+               
+            }
+           isIp("198.156.23.1");
+        </script>
+    </body>
+</html>

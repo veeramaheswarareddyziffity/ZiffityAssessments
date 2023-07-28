@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question8</title>
+    </head>
+    <body>
+        <script>
+             function validUrl(str){
+                var regexp=/^((http?|https:\/\/?)?)(www\.?)([a-zA-Z0-9-]+)(\.[a-z]{2,3})$/g
+                if(regexp.test(str)){
+                    console.log("valid url");
+                }
+                else{
+                    console.log("Invalid url");
+                }
+            }
+        
+            validUrl("https://www.example.com");
+            validUrl("www.example.com");
+        </script>
+    </body>
+</html>

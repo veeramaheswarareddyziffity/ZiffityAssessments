@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question8</title>
+    </head>
+    <body>
+        <script>
+            
+            function createClock(){
+                //var clock1=[];
+                var clock=new Date();
+                var hour=clock.getHours();
+                var minutes=clock.getMinutes();
+                var seconds=clock.getSeconds();
+                
+                 var clock2=hour+":"+minutes+":"+seconds;
+                // clock1.push(clock2);
+                // return clock1;
+                console.log(clock2);
+            }
+             //console.log(createClock());
+            setInterval(createClock,1000);
+            
+        </script>
+    </body>
+</html>

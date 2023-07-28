@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question14
+        </title>
+    </head>
+    <body>
+        <script>
+            function insert(str,insertString,position){
+                var str1='';
+                if((typeof (insertString) =="undefined")){
+                    str1+=str+"<br>";
+                }
+                 else if(typeof (position)=="undefined"){
+                    str1+= insertString + str+"<br>";
+                }
+                else{
+                    str1+=str.slice(0,position)+insertString+str.slice(position)+"<br>";
+                }
+
+               
+                return str1;
+            }
+            document.write(insert('We are doing some exercises.'));
+            document.write(insert('We are doing some exercises.','JavaScript '));
+            document.write(insert('We are doing some exercises.','JavaScript ',18));
+        </script>
+    </body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question13</title>
+    </head>
+    <body>
+        <script>
+           function allProperties(obj){
+            
+            var props=[];
+            for(var key in obj){
+                props.push(key);
+            }
+            return props;
+           }
+           var student={
+                name:"David Rayy",
+                sclass:"VI",
+                rollno:12
+            };
+           console.log(allProperties(student));
+           console.log(allProperties(student));
+        </script>
+    </body>
+</html>

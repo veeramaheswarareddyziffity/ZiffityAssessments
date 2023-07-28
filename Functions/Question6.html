@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question6
+        </title>
+    </head>
+    <body>
+        <script>
+            function longestWord(text){
+                var word=text.split(" ");
+                var word1=[];
+                for(var i=0;i<word.length;i++){
+                        if(word[i].length>word1.length){
+                            word1=word[i];
+
+                        }
+                    }                   
+                
+                return word1;
+            }
+            document.write(longestWord("Web Development tutorial"));
+        </script>
+    </body>
+</html>

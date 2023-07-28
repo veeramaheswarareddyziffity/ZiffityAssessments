@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question23
+        </title>
+    </head>
+    <body>
+        <script>
+            function removeFirstOccurance(text,str){
+                var index=text.indexOf(str);
+                var str1=text.slice(0,index)+text.slice(index+str.length);
+                return str1;
+            }
+            document.write(removeFirstOccurance("The quick brown fox jumps over the lazy dog", 'the'));
+        </script>
+    </body>
+</html>

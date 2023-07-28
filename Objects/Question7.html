@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question7</title>
+    </head>
+    <body>
+        <script>
+            
+            function subsetString(str){
+                var array=[];
+                for(var i=0;i<str.length;i++){
+                    for(var j=i+1;j<=str.length;j++){
+                        array.push(str.slice(i,j));
+                    } 
+                    
+                }
+                return array;
+            }
+            document.write(subsetString("dog"));
+
+        </script>
+    </body>
+</html>

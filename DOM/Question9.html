@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+<meta charset=utf-8 />
+<style type="text/css">
+body {margin: 30px;}
+</style>
+<title>Question9</title>
+</head>
+<body>
+    <form>
+Select your favorite Color :
+<select id="mySelect">
+<option>Red</option>
+<option>Green</option>
+<option>Blue</option>
+<option>White</option>
+</select>
+<input type="button" onclick="getOptions()" value="Count and
+Output all items">
+</form>
+<script>
+    
+    function getOptions(){
+    
+        var text='';
+        var select=document.getElementById("mySelect");
+        for(var i=0;i<select.length;i++){
+            text+=(i+1)+"\n"+select.options[i].text+"\n";
+            
+        }
+        alert(text);
+    }
+</script>
+</body>
+</html>

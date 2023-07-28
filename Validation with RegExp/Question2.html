@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question</title>
+    </head>
+    <body>
+        <p id="demo"></p>
+        <script>
+            function is_creditCard(str)
+            {
+             regexp = /[0-9]{16}/;
+            
+                    if (regexp.test(str))
+                      {
+                        return true;
+                      }
+                    else
+                      {
+                        return false;
+                      }
+            }
+
+            console.log(is_creditCard("3782822463100063"));
+
+            console.log(is_creditCard("378222463000633"));
+
+ 
+        </script>
+    </body>
+</html>
+
+

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question17</title>
+    </head>
+    <body>
+        <script>
+            function objectProperty(obj,prop){
+                for (var key in obj){
+                    if(key===prop){
+                        return true;
+                    }
+                    
+                }
+                return false;
+               
+            } 
+            var color={red: "#FF0000", green: "#00FF00", white: "#FFFFFF"};   
+             console.log(objectProperty(color,"green"));
+        </script>
+    </body>
+</html>

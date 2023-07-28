@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question21
+        </title>
+    </head>
+    <body>
+        <script>
+          function repeat(str,spec_Times){
+            var str1='';
+            if(typeof spec_Times=='undefined'){
+              str1=" Error in string";
+            }
+            else{
+              for(var i=0;i<spec_Times;i++){
+                str1+=str;
+              }
+            }
+            return str1;
+          }
+              document.write(repeat("a",4));
+              //document.write(repeat("a"));
+        </script>
+    </body>
+</html>

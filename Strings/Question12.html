@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question12</title>
+    </head>
+    <body>
+        <script>
+            function uncamelize(str,spec_Char=' '){
+                    var pattern=/([a-z])([A-Z])/g;
+                    var str1=str.replace(pattern,'$1'+ spec_Char+'$2');
+                return str1.toLowerCase();
+            }
+            document.write(uncamelize('camelCase','-'));
+        
+
+            
+            </script>
+    </body>
+</html>

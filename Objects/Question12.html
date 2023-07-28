@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question12</title>
+    </head>
+    <body>
+        <script>
+            function parseUrl(url){
+                var parse=document.createElement('a');
+                parse.href=url;
+                var result={ protocol: parse.protocol,
+                             hostname: parse.hostname,
+                             port: parse.port,
+                             pathname: parse.pathname,
+                             search: parse.search,
+                             hash: parse.hash
+                            };
+                    return result;
+            }
+             const url='https://www.example.com:8080/path/to/page?param1=value1&param2=value2#section';
+            console.log(parseUrl(url));
+        </script>
+    </body>
+</html>

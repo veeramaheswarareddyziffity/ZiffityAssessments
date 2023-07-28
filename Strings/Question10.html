@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question10</title>
+    </head>
+    <body>
+        <script>
+           function lowerUpperCase(str){
+            var str1="";
+            for(var i=0;i<str.length;i++){
+                var char=str.charAt(i);
+                if(char===char.toLowerCase()){
+                    str1+=char.toUpperCase();
+                }
+                else if(char===char.toUpperCase()){
+                    str1+=char.toLowerCase();
+                }
+                else{
+                    str1+=char;
+                }
+            }
+            return str1;
+           }
+            document.write(lowerUpperCase("aAbBcBC"));
+        </script>
+    </body>
+</html>

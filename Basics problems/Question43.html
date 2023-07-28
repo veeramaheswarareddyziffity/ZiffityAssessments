@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question43</title>
+        <script>
+            function rightMostDigit(n1,n2,n3){
+                if(n1%10 === n2%10 || n2%10===n3%10 || n1%10===n3%10){
+                    return "true";
+                }
+                else{
+                    return "false";
+                }
+            }
+            document.write(rightMostDigit(22,32,42));
+        </script>
+    </head>
+    <body>
+        <!-- <p id="demo"></p>
+        <button type="button" onclick="rightMostDigit()" >click me</button>
+         -->
+    </body>
+</html>

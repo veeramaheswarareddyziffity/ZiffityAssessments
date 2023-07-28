@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Question3</title>
+</head>
+<body>
+    <script>
+        function combinations(text){
+            var array=[];
+            for(var i=0;i<text.length;i++){
+                for(var j=i+1;j<=text.length;j++){
+                    array.push(text.slice(i,j));
+                }
+               
+            }
+            return array;
+        }
+        document.write(combinations("dog"));
+    </script>
+</body>
+</html>

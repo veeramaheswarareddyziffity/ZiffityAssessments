@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question17</title>
+    </head>
+    <body>
+        <script>
+            function hexaColor(str){
+                var regexp=/^#?([0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/g;
+                if(regexp.test(str)){
+                    console.log("true");
+                }
+                else{
+                    console.log("false");
+                }
+            }
+            hexaColor("#444");
+            hexaColor("#3333");
+            hexaColor("#333333");
+        </script>
+    </body>
+</html>

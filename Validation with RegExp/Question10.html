@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question10</title>
+    </head>
+    <body>
+        <script>
+            function alphaNumeric(str){
+                var regexp=/^[A-Za-z0-9]+$/
+                if(regexp.test(str)){
+                    console.log("Alpha Numeric");
+                }
+                else{
+                    console.log("Not Alpha Numeric");
+                }
+            }
+            alphaNumeric("3784dhgdhg");
+            alphaNumeric("3784dhgdhg*&*^^$3WṇQ");
+        </script>
+    </body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question6</title>
+    </head>
+    <body>
+        <script>
+            var students = [["david", 80], ["Vinoth", 77], ["Divya", 88], ["ishitha", 95], ["Thomas", 68]];
+            var marks = 0;
+            var res;
+            for (var i = 0; i < students.length; i++){
+                marks += students[i][1];
+            }
+            var average = marks / students.length;
+            res = "Average marks: " + average + "<br>";
+            if(average < 60){
+                res+=" Grade: F";
+            } 
+            else if(average < 70){
+                res+=" Grade: D";
+            } 
+            else if(average < 80){
+                res+=" Grade: C";
+            }
+             else if(average < 90){
+                res+=" Grade: B";
+            } 
+            else{
+                res+=" Grade: A";
+            }
+            document.write(res);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question14</title>
+    </head>
+    <body>
+        <script>
+            function canPostalCodw(str){
+                var regexp=/^([A-Z]{1})([0-9]{1})([A-Z]{1})\s([0-9]{1})([A-Z]{1})([0-9]{1})$/g;
+                if(regexp.test(str)){
+                    console.log("true");
+                }
+                else{
+                    console.log("false");
+                }
+            }
+            canPostalCodw("A0C 9Z9");
+            canPostalCodw("A0C4S9");
+        </script>
+    </body>
+</html>

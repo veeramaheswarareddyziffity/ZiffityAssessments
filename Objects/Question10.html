@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question10</title>
+    </head>
+    <body>
+        <script>
+            function sortArray(){
+                var library = [
+                   {
+                       title: 'The Road Ahead',
+                       author: 'Bill Gates',
+                       libraryID: 1254
+                   },
+                   {
+                       title: 'Walter Isaacson',
+                       author: 'Steve Jobs',
+                       libraryID: 4264
+                   },
+                   {
+                       title: 'Mockingjay: The Final Book of The Hunger Games',
+                       author: 'Suzanne Collins',
+                       libraryID: 3245
+                   }
+                ];
+                
+                var keys = Object.keys(library[0]);
+                keys.sort();
+
+                for (var i = 0; i < library.length; i++) {
+                  var obj = library[i];
+                  var result = '';
+                  for (var j = 0; j < keys.length; j++) {
+                    var key = keys[j];
+                    result += key + ': ' + obj[key] + ', ';
+                  }
+                  console.log(result);
+                }
+            }
+            
+            sortArray();
+        </script>
+    </body>
+</html>

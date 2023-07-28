@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question13
+        </title>
+    </head>
+    <body>
+        <script>
+            function concatenate(str,n_times){
+                var str1='';
+                if(typeof (n_times)=='undefined'){ 
+                    str1+=str;
+                }
+                else{
+                    for (var i=0;i<n_times;i++){
+                        str1+=str;
+                    }
+                }
+                return str1;
+            }
+            
+            document.write(concatenate("Ha!"));
+        </script>
+    </body>
+</html>

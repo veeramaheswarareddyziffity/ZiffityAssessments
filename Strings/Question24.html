@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            Question23
+        </title>
+    </head>
+    <body>
+        <script>
+          function truncate(text,numOfWords){
+            var str=text.split(" ");
+            var len=str.length;
+            return str.splice(0,numOfWords).join(" ");
+          }
+          document.write(truncate('The quick brown fox jumps over the lazy dog', 4));
+        </script>
+    </body>
+</html>

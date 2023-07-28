@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question5</title>
+    </head>
+    <body>
+        <script>
+            function captalize(text){
+                var text2=text.toLowerCase().split(" ");
+                for(var i=0;i<text2.length;i++){
+                    text2[i]=text2[i].charAt(0).toUpperCase()+text2[i].slice(1);
+                }
+                return text2.join(" ");
+                
+            }
+            document.write(captalize("the quick brown fox"));
+        </script>
+    </body>
+</html>
