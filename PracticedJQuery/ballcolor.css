@@ -1,0 +1,42 @@
+body{
+    /* margin: 0px;
+    padding: 0px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+#container{
+     top:150px;
+    position: relative;
+    min-height: 80px;
+    width: 65%;
+    border-left: 3px solid rgb(0, 191, 255);
+    border-right: 3px solid rgb(0, 191, 255);
+    border-bottom: 3px solid rgb(0, 191, 255);
+    background-color: rgb(89, 232, 215);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap-reverse;
+    visibility: hidden;
+
+}
+button{
+    width: 120px;
+    height: 30px;
+    padding: 2px;
+    margin: 20px;
+    border-radius: 20%;
+    
+}
+button:hover{
+    border: 0px 3px 2px 1px solid blue ;
+    background-color: lightblue;
+    color: rgb(0, 0, 0);
+    
+}
+.ball-in{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    position: relative;
+}
