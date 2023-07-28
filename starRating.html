@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Star Rating System and Comment Box</title>
+        <link rel="stylesheet" href="starRating.css">
+        <script data-main="main" src="require.js"></script>
+        
+    </head>
+    <body>
+
+        <h2>Star Rating System and Comment Box</h2>
+        <div id="star-rating">
+            <span id="1" class="star" data-bind="click : function(){selectRating(1)},css: { active: selectedRating() >= 1 }">&#9733;</span>
+            <span id="2" class="star" data-bind="click : function(){selectRating(2)},css: { active: selectedRating() >= 2 }">&#9733;</span>
+            <span id="3" class="star" data-bind="click : function(){selectRating(3)},css: { active: selectedRating() >= 3 }">&#9733;</span>
+            <span id="4" class="star" data-bind="click : function(){selectRating(4)},css: { active: selectedRating() >= 4 }">&#9733;</span>
+            <span id="5" class="star" data-bind="click : function(){selectRating(5)},css: { active: selectedRating() >= 5 }">&#9733;</span>
+        </div>
+
+        <div id="commentbox">
+            <input id="name" type="text" data-bind="value : nameInput ,valueUpdate: 'input'" placeholder="Please Enter Your Name"/><br>
+            <input id="comment" type="text" data-bind="value : commentInput,valueUpdate: 'input'" placeholder="Comments" />
+            <br>
+            <button id="submitbtn" data-bind="click : $root.submitComment">Submit</button>
+        </div>
+
+
+
+         <h2>Comments</h2>
+
+        <div id="searchBar">
+            <input type="text" id="searchInput" data-bind="value : searchInput ,valueUpdate : 'input' ,visible : isVisible" placeholder="Search comments">
+          </div>
+
+        <div id="Comment-table">
+            <table data-bind="visible : isVisible">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Rating</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+                
+
+                 <tbody data-bind="template: { name: 'commentTemplate', foreach: paginatedComments }">
+                    
+
+                 </tbody>
+            
+            </table>
+        </div>
+        <script type="text/html" id="commentTemplate">
+            <tr>
+                <td data-bind="text: name"></td>
+                <td data-bind="text: rating"></td>
+                <td data-bind="text: comment"></td>
+                
+            </tr>
+        </script>
+        
+        <div class="pagebtn" id="pagination" data-bind="visible : isVisible">
+            <button id="prevbtn" data-bind="click: previousPage, enable: currentPage() > 1">Prev</button>
+           
+          <span class = "pagebtn" data-bind="foreach: pageNumbers">
+            <button data-bind="text: $data, click: function($data){$root.goToPage($data)}, css: { active: $root.isActivePage($data) }"></button>
+          </span>
+             <button id="nextbtn" data-bind="click: nextPage, enable: currentPage() < totalPages()">Next</button>
+        </div> 
+
+        
+
+
+    </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- $data === $parent.currentPage() -->
+<!-- function($data){} -->
