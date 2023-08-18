@@ -1,19 +1,19 @@
 <?php
-require '/var/www/html/assesment/PHP_Assesment/DB_Connection.php';
+require '/var/www/html/assesment/PHP_Assesment/DbConnection.php';
 // echo "reddy";
 class User{
 
     //signup process 
 
-    public function signup($username,$password,$account_type,$balance,$username2 = null ,$password2 = null){
-        if($account_type === 'single'){
-            $userId = $this->createUser($username,$password,$account_type);
+    public function signup($username,$password,$accountType,$balance,$username2 = null ,$password2 = null){
+        if($accountType === 'single'){
+            $userId = $this->createUser($username,$password,$accountType);
             $this->createSingleAccount($userId,$balance);
             return true;
         }
-        if($account_type === 'joint'){
-            $userId1 = $this->createUser($username,$password,$account_type);
-            $userId2 = $this->createUser($username2,$password2,$account_type);
+        if($accountType === 'joint'){
+            $userId1 = $this->createUser($username,$password,$accountType);
+            $userId2 = $this->createUser($username2,$password2,$accountType);
             $this->createJointAccount($userId1,$userId2,$balance);
             return true;
         }
@@ -24,18 +24,13 @@ class User{
 
     //creating users
 
-    private function createUser($username,$password,$account_type){
+    private function createUser($username,$password,$accountType){
         $conn = DBConnection::getConnection();
-        // echo $username;
-    
-        // echo $password;
-    
-        // echo $account_type;
     
         $encryptedPassword = password_hash($password, PASSWORD_BCRYPT);
     
         $stmt = $conn->prepare("INSERT INTO users(username, password, account_type) VALUES (?,?,?)");
-        $stmt->bind_param("sss", $username, $encryptedPassword, $account_type);
+        $stmt->bind_param("sss", $username, $encryptedPassword, $accountType);
         $stmt->execute();
         $stmt->close();
         
@@ -63,10 +58,10 @@ class User{
     }
 
     //getting accountType by user id
-    public function getAccountType($user_id){
+    public function getAccountType($userId){
         $conn = DBConnection::getConnection();
         $stmt = $conn->prepare("SELECT account_type FROM users WHERE id = ?");
-        $stmt->bind_param("i", $user_id);
+        $stmt->bind_param("i", $userId);
         $stmt->execute();
         $result = $stmt->get_result();
 
@@ -74,7 +69,7 @@ class User{
             $row = $result->fetch_assoc();
             return $row['account_type'];
         } else {
-            return null; // invalid user_id
+            return null; 
         }
         $stmt->close();
     }
@@ -82,8 +77,8 @@ class User{
     public function getUserAccountNumber($userId){
         $conn = DBConnection::getConnection();
 
-        $account_type = $this->getAccountType($userId);
-        if($account_type === 'single'){
+        $accountType = $this->getAccountType($userId);
+        if($accountType === 'single'){
             $stmt = $conn->prepare("SELECT account_number FROM ind_accounts WHERE user_id = ?");
             $stmt->bind_param("i", $userId);
             $stmt->execute();
@@ -97,7 +92,7 @@ class User{
             $stmt->close();
             return $accountNumber;
         }
-        if($account_type === 'joint'){
+        if($accountType === 'joint'){
             $stmt = $conn->prepare("SELECT account_number FROM joint_accounts WHERE user1_id = ? OR user2_id = ?");
             $stmt->bind_param("ii", $userId, $userId);
             $stmt->execute();
@@ -119,8 +114,8 @@ class User{
     public function getUserAccountBalance($userId){
         $conn = DBConnection::getConnection();
 
-        $account_type = $this->getAccountType($userId);
-        if($account_type === 'single'){
+        $accountType = $this->getAccountType($userId);
+        if($accountType === 'single'){
             $stmt = $conn->prepare("SELECT balance FROM ind_accounts WHERE user_id = ?");
             $stmt->bind_param("i", $userId);
             $stmt->execute();
@@ -134,7 +129,7 @@ class User{
             $stmt->close();
             return $balance;
         }
-        if($account_type === 'joint'){
+        if($accountType === 'joint'){
             $stmt = $conn->prepare("SELECT balance FROM joint_accounts WHERE user1_id = ? OR user2_id = ?");
             $stmt->bind_param("ii", $userId, $userId);
             $stmt->execute();
@@ -211,30 +206,30 @@ class User{
 
     //depositing money
 
-    public function depositMoney($userId,$deposit_amount){
+    public function depositMoney($userId,$depositAmount){
          
         // echo "enter the function"; 
         $conn = DBConnection::getConnection();
         // echo "enter the conn"; 
 
-        $account_type = $this->getAccountType($userId);
+        $accountType = $this->getAccountType($userId);
 
         // echo "enter the acounttype"; 
-        if ($deposit_amount <= 0) {
+        if ($depositAmount <= 0) {
 
             $conn->close();
             return false;
         }
 
-        if($account_type === 'single'){
+        if($accountType === 'single'){
             
             $stmt = $conn->prepare("UPDATE ind_accounts SET balance = balance + ? WHERE user_id = ?");
-            $stmt->bind_param("di",$deposit_amount,$userId);
+            $stmt->bind_param("di",$depositAmount,$userId);
            
         }
-        elseif($account_type === "joint"){
+        elseif($accountType === "joint"){
             $stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance + ? WHERE user1_id = ? OR user2_id = ?");
-            $stmt->bind_param("dii",$deposit_amount,$userId,$userId);
+            $stmt->bind_param("dii",$depositAmount,$userId,$userId);
         }
         else{
             $conn->close();
@@ -242,11 +237,11 @@ class User{
         }
 
         if($stmt->execute()){
-            $transaction_type = 'deposite';
-            $description = "Deposited +$deposit_amount";
+            $transactionType = 'deposite';
+            $description = "Deposited +$depositAmount";
 
             $trans_stmt = $conn->prepare("INSERT INTO transactions(user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-            $trans_stmt->bind_param("issds", $userId, $account_type, $transaction_type, $deposit_amount, $description);
+            $trans_stmt->bind_param("issds", $userId, $accountType, $transactionType, $depositAmount, $description);
             $trans_stmt->execute();
             $trans_stmt->close();
             $conn->close();
@@ -262,29 +257,29 @@ class User{
     }
 
 
-    public function withdrawMoney($userId,$withdraw_amount){
+    public function withdrawMoney($userId,$withdrawAmount){
         // echo $withdraw_amount;
         $conn = DBConnection::getConnection();
      
-        $account_type = $this->getAccountType($userId);
+        $accountType = $this->getAccountType($userId);
 
-        if ($withdraw_amount < 500 ) {
+        // if ($withdrawAmount < 500 ) {
 
-            $conn->close();
-            return false;
-        }
+        //     $conn->close();
+        //     return false;
+        // }
        
-        if($account_type === 'single'){
+        if($accountType === 'single'){
             // echo $withdraw_amount;
             $stmt = $conn->prepare("UPDATE ind_accounts SET balance = balance - ? WHERE user_id = ?");
             // echo $account_type;
-            $stmt->bind_param("di",$withdraw_amount,$userId);
+            $stmt->bind_param("di",$withdrawAmount,$userId);
            
         }
-        elseif($account_type === "joint"){
+        elseif($accountType === "joint"){
            
             $stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance - ? WHERE user1_id = ? OR user2_id = ?");
-            $stmt->bind_param("dii",$withdraw_amount,$userId,$userId);
+            $stmt->bind_param("dii",$withdrawAmount,$userId,$userId);
             // echo $withdraw_amount;
         }
         else{
@@ -294,109 +289,109 @@ class User{
         // echo $withdraw_amount;
         if($stmt->execute()){
             // echo $withdraw_amount;
-            $transaction_type = 'withdraw';
-            $description = "Withdraw -$withdraw_amount";
+            $transactionType = 'withdraw';
+            $description = "Withdraw -$withdrawAmount";
            
 
             $trans_stmt = $conn->prepare("INSERT INTO transactions(user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-            $trans_stmt->bind_param("issds", $userId, $account_type, $transaction_type, $withdraw_amount, $description);
+            $trans_stmt->bind_param("issds", $userId, $accountType, $transactionType, $withdrawAmount, $description);
             $trans_stmt->execute();
             $trans_stmt->close();
             $conn->close();
 
             return true;
         }
-        else{
+        
             $conn->close();
             return false;
-        }
+        
 
     }
 
     //calculate intrest for fixed deposite
-    public function calculateFdInterestRate($amount, $duration_in_months) {
+    public function calculateFdInterestRate($amount, $durationInMonths) {
        
-        $intrest_rate_per_annum = 0.0;
+        $intrestRatePerAnnum = 0.0;
     
-        if ($duration_in_months > 0 && $duration_in_months <= 6) {
-            $intrest_rate_per_annum = 3.0;
+        if ($durationInMonths > 0 && $durationInMonths <= 6) {
+            $intrestRatePerAnnum = 3.0;
         } 
-        elseif ($duration_in_months > 6 && $duration_in_months <= 12) {
-            $intrest_rate_per_annum = 4.0;
+        elseif ($durationInMonths > 6 && $durationInMonths <= 12) {
+            $intrestRatePerAnnum = 4.0;
         } 
-        elseif ($duration_in_months > 12 && $duration_in_months <= 24) {
-            $intrest_rate_per_annum = 5.0;
+        elseif ($durationInMonths > 12 && $durationInMonths <= 24) {
+            $intrestRatePerAnnum = 5.0;
         } 
-        elseif ($duration_in_months > 24) {
-            $intrest_rate_per_annum= 6.0;
+        elseif ($durationInMonths > 24) {
+            $intrestRatePerAnnum= 6.0;
         }
     
-        $duration_in_years = $duration_in_months / 12;
-        $intrest_amount = ($amount * $intrest_rate_per_annum * $duration_in_years) / 100;
+        $durationInYears = $durationInMonths / 12;
+        $intrestAmount = ($amount * $intrestRatePerAnnum * $durationInYears) / 100;
     
-    return [$intrest_amount,floatval($intrest_rate_per_annum)];
+    return [$intrestAmount,floatval($intrestRatePerAnnum)];
     }
     
 
     // calculate intrest for recurring deposite
-    public function calculateRdIntrestRate($monthly_amount,$duration_in_months){
+    public function calculateRdIntrestRate($monthlyAmount,$durationInMonths){
 
-        $intrest_rate_per_annum = 0.0;
+        $intrestRatePerAnnum = 0.0;
 
-        if ($duration_in_months > 0 && $duration_in_months <= 6) {
-            $intrest_rate_per_annum = 3.0;
+        if ($durationInMonths > 0 && $durationInMonths <= 6) {
+            $intrestRatePerAnnum = 3.0;
         } 
-        elseif ($duration_in_months > 6 && $duration_in_months <= 12) {
-            $intrest_rate_per_annum = 4.0;
+        elseif ($durationInMonths > 6 && $durationInMonths <= 12) {
+            $intrestRatePerAnnum = 4.0;
         } 
-        elseif ($duration_in_months > 12 && $duration_in_months <= 24) {
-            $intrest_rate_per_annum = 5.0;
+        elseif ($durationInMonths > 12 && $durationInMonths <= 24) {
+            $intrestRatePerAnnum = 5.0;
         } 
-        elseif ($duration_in_months > 24) {
-            $intrest_rate_per_annum= 6.0;
+        elseif ($durationInMonths > 24) {
+            $intrestRatePerAnnum= 6.0;
         }
 
 
-        $intrest_amount = ($monthly_amount/12) * ($intrest_rate_per_annum/100 )* (($duration_in_months * ($duration_in_months + 1))/2);
+        $intrestAmount = ($monthlyAmount/12) * ($intrestRatePerAnnum/100 )* (($durationInMonths * ($durationInMonths + 1))/2);
 
-        return [$intrest_amount,floatval($intrest_rate_per_annum)] ;
+        return [$intrestAmount,floatval($intrestRatePerAnnum)] ;
         
     }
 
     // creating fixed deposit
 
-    public function createFixedDeposit($userId,$amount,$duration_in_months){
+    public function createFixedDeposit($userId,$amount,$durationInMonths){
         $conn = DBConnection::getConnection();
 
-        if ($amount <= 0 || $duration_in_months <= 0) {
+        if ($amount <= 0 || $durationInMonths <= 0) {
             
             // echo "fialed1";
             $conn->close();
             return false;
         }
-        $user_balance = $this->getUserAccountBalance($userId);
+        $userBalance = $this->getUserAccountBalance($userId);
 
-        $account_type = $this->getAccountType($userId);
+        $accountType = $this->getAccountType($userId);
 
-        if( $user_balance < $amount ){
+        if( $userBalance < $amount ){
             $conn->close();
             // echo "fialed2";
             return false;
         }
 
-        $intrest_rate = $this->calculateFdInterestRate($amount,$duration_in_months);
+        $intrestRate = $this->calculateFdInterestRate($amount,$durationInMonths);
          
-        $intrest_amount = $intrest_rate[0];
+        $intrestAmount = $intrestRate[0];
 
-        $intrest_rate_per_annum = $intrest_rate[1];
+        $intrestRatePerAnnum = $intrestRate[1];
 
-        $maturity_amount = $amount + $intrest_amount;
+        $maturityAmount = $amount + $intrestAmount;
 
-        if($account_type === 'single'){
+        if($accountType === 'single'){
             $update_balance_stmt=$conn->prepare("UPDATE ind_accounts SET balance = balance - ? WHERE user_id = ?");
             $update_balance_stmt->bind_param("di",$amount,$userId);
         }
-        elseif($account_type === "joint"){
+        elseif($accountType === "joint"){
            
             $update_balance_stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance - ? WHERE user1_id = ? OR user2_id = ?");
             $update_balance_stmt ->bind_param("dii",$amount,$userId,$userId);
@@ -409,12 +404,12 @@ class User{
 
         if($update_balance_stmt->execute()){
             
-            $transaction_type = 'fixed Deposit';
+            $transactionType = 'fixed Deposit';
             $description = "Fixed Deposite -$amount";
            
 
             $trans_stmt = $conn->prepare("INSERT INTO transactions(user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-            $trans_stmt->bind_param("issds", $userId, $account_type, $transaction_type, $amount, $description);
+            $trans_stmt->bind_param("issds", $userId, $accountType, $transactionType, $amount, $description);
             $trans_stmt->execute();
             $trans_stmt->close();
            
@@ -425,7 +420,7 @@ class User{
         }
 
         $fd_stmt = $conn->prepare("INSERT INTO fixed_deposits (user_id, principal_amount, interest_rate,intrest_amount,maturity_amount,duration_in_months) VALUES (?,?,?,?,?,?)");
-        $fd_stmt->bind_param("ididdi", $userId, $amount, $intrest_rate_per_annum,$intrest_amount, $maturity_amount, $duration_in_months);
+        $fd_stmt->bind_param("ididdi", $userId, $amount, $intrestRatePerAnnum,$intrestAmount, $maturityAmount, $durationInMonths);
         $fd_stmt->execute();
         $fd_stmt->close();
         
@@ -435,61 +430,61 @@ class User{
 
     }
 
-    public function createRecurringDeposit($userId,$monthly_amount,$duration_in_months){
+    public function createRecurringDeposit($userId,$monthlyAmount,$durationInMonths){
 
         $conn = DBConnection::getConnection();
        
        
-        if ($monthly_amount <= 0 || $duration_in_months <= 0) {
+        if ($monthlyAmount <= 0 || $durationInMonths <= 0) {
             // echo "failed1";
             $conn->close();
             return false;
         }
-        $user_balance = $this->getUserAccountBalance($userId);
+        $userBalance = $this->getUserAccountBalance($userId);
 
-        $account_type = $this->getAccountType($userId);
+        $accountType = $this->getAccountType($userId);
 
-        if( $user_balance < $monthly_amount ){
+        if( $userBalance < $monthlyAmount ){
             // echo "failed2";
             $conn->close();
             return false;
         }
        
-        $intrest_rate = $this->calculateRdIntrestRate($monthly_amount,$duration_in_months);
+        $intrestRate = $this->calculateRdIntrestRate($monthlyAmount,$durationInMonths);
         
-        $intrest_amount = $intrest_rate[0];
+        $intrestAmount = $intrestRate[0];
         // echo $intrest_rate[1];
-        $intrest_rate_per_annum = $intrest_rate[1];
+        $intrestRatePerAnnum = $intrestRate[1];
         
-        $principle_amount = ($monthly_amount * $duration_in_months);
+        $principleAmount = ($monthlyAmount * $durationInMonths);
 
-        $maturity_amount = $principle_amount + $intrest_amount;
+        $maturityAmount = $principleAmount + $intrestAmount;
 
-        if($account_type === 'single'){
-            // echo  $duration_in_months;
+        if($accountType === 'single'){
+            // echo  $durationInMonths;
             $update_balance_stmt=$conn->prepare("UPDATE ind_accounts SET balance = balance - ? WHERE user_id = ?");
-            $update_balance_stmt->bind_param("di",$monthly_amount,$userId);
+            $update_balance_stmt->bind_param("di",$monthlyAmount,$userId);
         }
-        elseif($account_type === "joint"){
-            // echo  $duration_in_months;
+        elseif($accountType === "joint"){
+            // echo  $durationInMonths;
             $update_balance_stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance - ? WHERE user1_id = ? OR user2_id = ?");
-            $update_balance_stmt ->bind_param("dii",$monthly_amount,$userId,$userId);
+            $update_balance_stmt ->bind_param("dii",$monthlyAmount,$userId,$userId);
             
         }
         else{
-            echo  $duration_in_months;
+            echo  $durationInMonths;
             $conn->close();
             return false;
         }
 
         if($update_balance_stmt->execute()){
             
-            $transaction_type = 'Recurring Deposit';
-            $description = "Recurring Deposit -$monthly_amount";
+            $transactionType = 'Recurring Deposit';
+            $description = "Recurring Deposit -$monthlyAmount";
            
 
             $trans_stmt = $conn->prepare("INSERT INTO transactions(user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-            $trans_stmt->bind_param("issds", $userId, $account_type, $transaction_type, $monthly_amount, $description);
+            $trans_stmt->bind_param("issds", $userId, $accountType, $transactionType, $monthlyAmount, $description);
             $trans_stmt->execute();
             $trans_stmt->close();
            
@@ -500,7 +495,7 @@ class User{
         }
         // echo $intrest_rate_per_annum;
         $rd_stmt = $conn->prepare("INSERT INTO recurring_deposits (user_id, monthly_amount, interest_rate,intrest_amount,maturity_amount,duration_in_months,principal_amount) VALUES (?,?,?,?,?,?,?)");
-        $rd_stmt->bind_param("ididdid", $userId, $monthly_amount, $intrest_rate_per_annum,$intrest_amount, $maturity_amount, $duration_in_months,$principle_amount);
+        $rd_stmt->bind_param("ididdid", $userId, $monthlyAmount, $intrestRatePerAnnum,$intrestAmount, $maturityAmount, $durationInMonths,$principleAmount);
         $rd_stmt->execute();
         $rd_stmt->close();
         
@@ -510,7 +505,7 @@ class User{
 
      }
 
-    public function getAccTypeUserIdFromAccountNumber($account_number){
+    public function getAccTypeUserIdFromAccountNumber($accountNumber){
 
         $conn = DBConnection::getConnection();
 
@@ -521,7 +516,7 @@ class User{
               WHERE ia.account_number = ? OR ja.account_number = ?";
 
         $stmt = $conn->prepare($query);
-        $stmt->bind_param("ss", $account_number, $account_number);
+        $stmt->bind_param("ss", $accountNumber, $accountNumber);
         $stmt->execute();
 
        
@@ -537,48 +532,48 @@ class User{
 
     }
 
-    public function transferFunds($userId,$reci_acc_num,$trans_amount){
+    public function transferFunds($userId,$reciAccNum,$transAmount){
 
         $conn = DBConnection::getConnection();
 
         
 
-        if ($trans_amount <= 0) {
+        if ($transAmount <= 0) {
             
             $conn->close();
             return false;
         }
          
 
-        $sender_balance = $this->getUserAccountBalance($userId);
+        $senderBalance = $this->getUserAccountBalance($userId);
         
-        $sender_acc_num =$this->getUserAccountNumber($userId);
+        $senderAccNum =$this->getUserAccountNumber($userId);
 
        
 
-        $sender_account_type = $this->getAccountType($userId);
+        $senderAccountType = $this->getAccountType($userId);
         
-        $receiver_account_type_id = $this->getAccTypeUserIdFromAccountNumber($reci_acc_num);
+        $receiverAccountTypeId = $this->getAccTypeUserIdFromAccountNumber($reciAccNum);
 
-        $receiver_account_type = $receiver_account_type_id['account_type'];
+        $receiverAccountType = $receiverAccountTypeId['account_type'];
 
-        $receiver_id = $receiver_account_type_id['userId'];
+        $receiverId = $receiverAccountTypeId['userId'];
        
-        if ($trans_amount < $sender_balance) {
+        if ($transAmount > $senderBalance) {
             // echo $reci_acc_num;
             $conn->close();
             return false;
         }
         
-        if ($sender_account_type === 'single') {
+        if ($senderAccountType === 'single') {
             
             $sender_update_stmt = $conn->prepare("UPDATE ind_accounts SET balance = balance - ? WHERE user_id = ?");
-            $sender_update_stmt->bind_param("di", $trans_amount, $userId);
+            $sender_update_stmt->bind_param("di", $transAmount, $userId);
         } 
-        else if ($sender_account_type === 'joint') {
+        else if ($senderAccountType === 'joint') {
 
             $sender_update_stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance - ? WHERE user1_id = ? OR user2_id=?");
-            $sender_update_stmt->bind_param("dii", $trans_amount, $userId,$userId);
+            $sender_update_stmt->bind_param("dii", $transAmount, $userId,$userId);
             // echo $sender_acc_num;
         } 
         else {
@@ -591,12 +586,12 @@ class User{
         $sender_update_stmt->execute();
         $sender_update_stmt->close();
 
-        if ($receiver_account_type === 'single') {
+        if ($receiverAccountType === 'single') {
             
             $receiver_update_stmt = $conn->prepare("UPDATE ind_accounts SET balance = balance + ? WHERE account_number = ?");
             
         } 
-        else if ($receiver_account_type === 'joint') {
+        else if ($receiverAccountType === 'joint') {
             $receiver_update_stmt = $conn->prepare("UPDATE joint_accounts SET balance = balance + ? WHERE account_number = ?");
         }
          else {
@@ -605,27 +600,27 @@ class User{
             return false;
         }
 
-        $receiver_update_stmt->bind_param("ds",$trans_amount,$reci_acc_num);
+        $receiver_update_stmt->bind_param("ds",$transAmount,$reciAccNum);
         
         $receiver_update_stmt->execute();
         $receiver_update_stmt->close();
 
 
-        $transaction_type = 'fund_transfer';
-        $sender_description = "Transferred $trans_amount to Account Number: $reci_acc_num";
+        $transactionType = 'fund_transfer';
+        $senderDescription = "Transferred $transAmount to Account Number: $reciAccNum";
         
 
         $sender_transaction_stmt = $conn->prepare("INSERT INTO transactions (user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-        $sender_transaction_stmt->bind_param("issds", $userId, $sender_account_type, $transaction_type, $trans_amount, $sender_description);
+        $sender_transaction_stmt->bind_param("issds", $userId, $senderAccountType, $transactionType, $transAmount, $senderDescription);
         
         $sender_transaction_stmt->execute();
         // echo $reci_acc_num;
         $sender_transaction_stmt->close();
 
-        $receiver_description = "Received $trans_amount from Account Number: $sender_acc_num";
+        $receiverDescription = "Received $transAmount from Account Number: $senderAccNum";
 
         $receiver_transaction_stmt = $conn->prepare("INSERT INTO transactions (user_id, account_type, transaction_type, amount, description) VALUES (?, ?, ?, ?, ?)");
-        $receiver_transaction_stmt->bind_param("issds", $receiver_id, $receiver_account_type, $transaction_type, $trans_amount, $receiver_description);
+        $receiver_transaction_stmt->bind_param("issds", $receiverId, $receiverAccountType, $transactionType, $transAmount, $receiverDescription);
         $receiver_transaction_stmt->execute();
         $receiver_transaction_stmt->close();
 

@@ -10,25 +10,25 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $userId = $_SESSION['user_id'];
 
-    $monthly_amount = $_POST['monthly_amount'];
-    $duration_in_months = $_POST['duration_in_months'];
+    $monthlyAmount = $_POST['monthly_amount'];
+    $durationInMonths = $_POST['duration_in_months'];
 
     $balance = new User();
-    $account_balance = $balance->getUserAccountBalance($userId);
-    if ($account_balance < $monthly_amount) {
+    $accountBalance = $balance->getUserAccountBalance($userId);
+    if ($accountBalance < $monthlyAmount) {
         $error = "Insufficient balance";
     } else {
-        $recurring_deposit = new User();
+        $recurringDeposit = new User();
 
-        $result = $recurring_deposit->createRecurringDeposit($userId, $monthly_amount, $duration_in_months);
+        $result = $recurringDeposit->createRecurringDeposit($userId, $monthlyAmount, $durationInMonths);
 
         if ($result) {
             $intrest = new User();
 
-            $intrestRateAmount = $intrest->calculateRdIntrestRate($monthly_amount, $duration_in_months);
+            $intrestRateAmount = $intrest->calculateRdIntrestRate($monthlyAmount, $durationInMonths);
 
-            $intrest_amount = $intrestRateAmount[0];
-            $intrest_rate = $intrestRateAmount[1];
+            $intrestAmount = $intrestRateAmount[0];
+            $intrestRate = $intrestRateAmount[1];
             $success = "Recurring Deposit Account Created Successfully";
         } else {
             $error = " Error: Failed to Create Recurring Deposit Acccount.Please try again.";
@@ -43,24 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <head>
     <title>Create Recurring Deposit Account</title>
-    <link rel="stylesheet" href="rd_form.css">
-    <style>
-        .success {
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-
-        .intrest_result {
-            text-align: center;
-        }
-
-        .intrest_result h3 {
-            color: lightseagreen;
-        }
-    </style>
+    <link rel="stylesheet" href="RdForm.css">
+    
 </head>
 
 <body>
@@ -82,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 if ($result) {
 
                     echo "<h3>Based on your data</h3>";
-                    echo "Intrest Rate : " . $intrest_rate . "</p><p>" . "Intrest Amount : " . $intrest_amount . "</p>";
+                    echo "Intrest Rate : " . $intrestRate . "</p><p>" . "Intrest Amount : " . $intrestAmount . "</p>";
                 }
                 ?>
             </div>

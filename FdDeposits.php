@@ -11,12 +11,12 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 $user = new User();
-$account_type = $user->getAccountType($userId);
+$accountType = $user->getAccountType($userId);
 
-function getFixedDeposits($userId,$account_type){
+function getFixedDeposits($userId,$accountType){
     $conn = DBConnection::getConnection();
 
-    if($account_type === 'single'){
+    if($accountType === 'single'){
 
         $query = "SELECT user_id,principal_amount,interest_rate,intrest_amount,maturity_amount,duration_in_months,created_at FROM fixed_deposits WHERE user_id = ?";
         $stmt = $conn->prepare($query);
@@ -29,7 +29,7 @@ function getFixedDeposits($userId,$account_type){
         $stmt->close();
         
     }
-    elseif($account_type === 'joint'){
+    elseif($accountType === 'joint'){
         $query = "SELECT user1_id,user2_id FROM joint_accounts WHERE user1_id = ? OR user2_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii",$userId,$userId);
@@ -72,7 +72,7 @@ function getFixedDeposits($userId,$account_type){
 <h2>Fixed Deposits</h2>
     
 <?php
-$details = getFixedDeposits($userId,$account_type);
+$details = getFixedDeposits($userId,$accountType);
 
 if (!empty($details)) {
    

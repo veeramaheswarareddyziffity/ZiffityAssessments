@@ -1,4 +1,3 @@
-
 <?php
 session_start();
 require 'user.php';
@@ -12,7 +11,7 @@ $userId = $_SESSION['user_id'];
 
 $user = new User();
 
-$account_type = $user->getAccountType($userId);
+$accountType = $user->getAccountType($userId);
 
 // to display individual account details
 function displayIndividualAccount($userId)
@@ -33,7 +32,7 @@ function displayIndividualAccount($userId)
         echo "Account Type: single <br>";
         echo "Account Number: $accountNumber<br>";
         echo "Balance : $balance";
-        // Display other individual account details as needed
+        
     } else {
         echo "No individual account details found for this user.";
     }
@@ -68,42 +67,48 @@ function displayJointAccount($userId)
 
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    $depo_succ = $depo_err = "";
-    $with_succ = $with_err = "";
+    $depoSucc = $depoErr = "";
+    $withSucc = $withErr = "";
     if (isset($_POST["deposit_submit"])) {
-        $deposit_amount = $_POST['deposit_amount'];
-
-        $deposit_money = new User();
-
-
-        $result = $deposit_money->depositMoney($userId, $deposit_amount);
-
-        if ($result) {
-            $depo_succ = "deposit of $deposit_amount was successful";
+        $depositAmount = $_POST['deposit_amount'];
+        if ($depositAmount <= 0) {
+            $depoErr = "Please enter valid amount";
         } else {
-            $depo_err = "Error:Deposit failed";
+            $depositMoney = new User();
+            $result = $depositMoney->depositMoney($userId, $depositAmount);
+
+            if ($result) {
+                $depoSucc = "deposit of $depositAmount was successful";
+            } else {
+                $depErr = "Error:Deposit failed";
+            }
         }
     }
     if (isset($_POST["withdraw_submit"])) {
-        $withdraw_amount = $_POST['withdraw_amount'];
+        $withdrawAmount = $_POST['withdraw_amount'];
 
         $balance = new User();
-        $account_balance = $balance->getUserAccountBalance($userId);
-        
-        if ($account_balance < $withdraw_amount) {
-            $with_err = "Insufficient balance";
-        } 
-        else {
-            $withdraw_Money = new User();
+        $accountBalance = $balance->getUserAccountBalance($userId);
+
+        $remainingBalance = $accountBalance - $withdrawAmount;
+
+        if ($accountBalance < $withdrawAmount) {
+            $withErr = "Insufficient balance";
+        } elseif ($withdrawAmount <= 0) {
+            $withErr = "Enter the valid ampount";
+        } elseif ($remainingBalance < 500) {
+            $withErr = "Failed : The entered amount is below the minimum required.";
+        } else {
+            $withdrawMoney = new User();
 
 
-            $result = $withdraw_Money->withdrawMoney($userId, $withdraw_amount);
+            $result = $withdrawMoney->withdrawMoney($userId, $withdrawAmount);
 
 
             if ($result) {
-                $with_succ = "withdraw of $withdraw_amount was successful";
+                $withSucc = "withdraw of $withdrawAmount was successful";
             } else {
-                $with_err =  "Error:Withdraw failed";
+                $withErr =  "Error:Withdraw failed";
             }
         }
     }
@@ -118,24 +123,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
-    <style>
-        .success {
-            color: green;
-        }
 
-        .error {
-            color: red;
-        }
-    </style>
 </head>
 
 <body>
     <h1>Welcome to our Bank</h1>
     <?php
     // display account details 
-    if ($account_type === 'single') {
+    if ($accountType === 'single') {
         displayIndividualAccount($userId);
-    } elseif ($account_type === 'joint') {
+    }
+    if ($accountType === 'joint') {
         displayJointAccount($userId);
     }
     ?>
@@ -143,12 +141,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <h3>Deposite : </h3>
 
     <div class="form-container" id="depositForm">
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"  method="post">
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="deposit_amount">Deposit Amount:</label>
             <input type="number" name="deposit_amount" id="deposit_amount" required>
             <input type="submit" name="deposit_submit" value="Deposit"><br>
-            <span class="success"><?php echo $depo_succ; ?></span>
-            <span class="error"><?php echo $depo_err; ?></span>
+            <span class="success"><?php echo $depoSucc; ?></span>
+            <span class="error"><?php echo $depoErr; ?></span>
         </form>
     </div>
 
@@ -158,28 +156,28 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <label for="withdraw_amount">Withdraw Amount:</label>
             <input type="number" name="withdraw_amount" id="withdraw_amount" required>
             <input type="submit" name="withdraw_submit" value="Withdraw"><br>
-            
-            <span class="success"><?php echo $with_succ;?></span>
-            <span class="error"><?php echo $with_err; ?></span>
+
+            <span class="success"><?php echo $withSucc; ?></span>
+            <span class="error"><?php echo $withErr; ?></span>
         </form>
     </div>
     <div class="button-container">
-        <div><span class="formBtn"><a href="fd_Form.php" >Fixed Deposit</a></span> </div>
-        <div><span class="formBtn"><a href="rd_Form.php" >RecurringDeposit</a></span> </div>
-        <div><span class="formBtn"><a href="fund_Form.php" >Fund Transfer</a></span> </div>
-        <div><span class="formBtn"><a href="transaction.php" >Show Transactions</a></span> </div>
-        <div><span class="formBtn"><a href="deposits.php"  >Deposits</a></span> </div>
+        <div><span class="formBtn"><a href="FdForm.php">Fixed Deposit</a></span> </div>
+        <div><span class="formBtn"><a href="RdForm.php">RecurringDeposit</a></span> </div>
+        <div><span class="formBtn"><a href="FundForm.php">Fund Transfer</a></span> </div>
+        <div><span class="formBtn"><a href="transaction.php">Show Transactions</a></span> </div>
+        <div><span class="formBtn"><a href="deposits.php">Deposits</a></span> </div>
     </div>
 
     <br>
     <div><span class="formBtn"><a href="logout.php">Logout</a></span> </div>
     <script type="text/javascript">
-    window.history.forward();
-
-    function noBack() {
         window.history.forward();
-    }
-</script>
+
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
 </body>
 
 </html>

@@ -11,13 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 $user = new User();
-$account_type = $user->getAccountType($userId);
+$accountType = $user->getAccountType($userId);
 
-function getTransaction($userId, $account_type)
+function getTransaction($userId, $accountType)
 {
     $conn = DBConnection::getConnection();
 
-    if ($account_type === 'single') {
+    if ($accountType === 'single') {
 
         $query = "SELECT user_id,account_type,transaction_type,amount,description,transaction_date FROM transactions WHERE user_id = ?";
         $stmt = $conn->prepare($query);
@@ -28,7 +28,8 @@ function getTransaction($userId, $account_type)
             $transaction_history[] = $row;
         }
         $stmt->close();
-    } elseif ($account_type === 'joint') {
+    }
+    if ($accountType === 'joint') {
         $query = "SELECT user1_id,user2_id FROM joint_accounts WHERE user1_id = ? OR user2_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii", $userId, $userId);
@@ -63,42 +64,14 @@ function getTransaction($userId, $account_type)
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Transactions</title>
     <link rel="stylesheet" href="transaction.css">
-    <style>
-        .formBtn {
-
-            background-color: #0066cc;
-            color: white;
-            padding: 10px 20px;
-            margin: 10px 5px;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        .formBtn:hover {
-
-            background-color: #0099ff;
-        }
-
-        .formBtn a {
-            color: white;
-            text-decoration: none;
-        }
-
-        .button-container {
-            display: flex;
-            margin: 40px 0;
-            justify-content: center; 
-        }
-    </style>
+   
 </head>
 
 <body>
     <h2>Transaction History</h2>
 
     <?php
-    $details = getTransaction($userId, $account_type);
+    $details = getTransaction($userId, $accountType);
 
     if (!empty($details)) {
         echo '<table>';
@@ -122,12 +95,12 @@ function getTransaction($userId, $account_type)
         <div><span class="formBtn"><a href="logout.php">Log out</a></span> </div>
     </div>
     <script type="text/javascript">
-    window.history.forward();
-
-    function noBack() {
         window.history.forward();
-    }
-</script>
+
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
 </body>
 
 </html>

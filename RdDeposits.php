@@ -11,13 +11,13 @@ if (!isset($_SESSION['user_id'])) {
 $userId = $_SESSION['user_id'];
 
 $user = new User();
-$account_type = $user->getAccountType($userId);
+$accountType = $user->getAccountType($userId);
 
-function getRecurringDeposits($userId, $account_type)
+function getRecurringDeposits($userId, $accountType)
 {
     $conn = DBConnection::getConnection();
 
-    if ($account_type === 'single') {
+    if ($accountType === 'single') {
 
         $query = "SELECT user_id,monthly_amount,interest_rate,intrest_amount,maturity_amount,duration_in_months,principal_amount,created_at FROM recurring_deposits WHERE user_id = ?";
         $stmt = $conn->prepare($query);
@@ -28,7 +28,7 @@ function getRecurringDeposits($userId, $account_type)
             $rd_history[] = $row;
         }
         $stmt->close();
-    } elseif ($account_type === 'joint') {
+    } elseif ($accountType === 'joint') {
         $query = "SELECT user1_id,user2_id FROM joint_accounts WHERE user1_id = ? OR user2_id = ?";
         $stmt = $conn->prepare($query);
         $stmt->bind_param("ii", $userId, $userId);
@@ -69,7 +69,7 @@ function getRecurringDeposits($userId, $account_type)
     <h2>Recurring Deposits</h2>
 
     <?php
-    $details = getRecurringDeposits($userId, $account_type);
+    $details = getRecurringDeposits($userId, $accountType);
 
     if (!empty($details)) {
 

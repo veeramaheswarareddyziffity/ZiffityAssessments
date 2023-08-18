@@ -11,23 +11,23 @@ $success = $error = "";
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $userId = $_SESSION['user_id'];
-    $reci_acc_num = $_POST['receiver_account_number'];
-    $trans_amount = $_POST['amount'];
+    $reciAccNum = $_POST['receiver_account_number'];
+    $transAmount = $_POST['amount'];
 
     $balance = new User();
-    $account_balance = $balance->getUserAccountBalance($userId);
+    $accountBalance = $balance->getUserAccountBalance($userId);
 
-    if ($account_balance < $trans_amount) {
+    if ($accountBalance < $transAmount) {
         $error = "Insufficient balance";
     } else {
-        $validate_account = new User;
-        $checkAcc = $validate_account->getAccTypeUserIdFromAccountNumber($reci_acc_num);
+        $validateAccount = new User;
+        $checkAcc = $validateAccount->getAccTypeUserIdFromAccountNumber($reciAccNum);
 
         if ($checkAcc === null) {
             $error = "Account Not Found";
         } else {
-            $trans_fund = new User();
-            $result = $trans_fund->transferFunds($userId, $reci_acc_num, $trans_amount);
+            $transFund = new User();
+            $result = $transFund->transferFunds($userId, $reciAccNum, $transAmount);
             if ($result) {
                 $success = "Transfer Successfully";
             } else {
@@ -42,16 +42,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
 <head>
     <title>Fund Transfer</title>
-    <link rel="stylesheet" href="fund_form.css">
-    <style>
-        .success {
-            color: green;
-        }
-
-        .error {
-            color: red;
-        }
-    </style>
+    <link rel="stylesheet" href="FundForm.css">
+   
 </head>
 
 <body>

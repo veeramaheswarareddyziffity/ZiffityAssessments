@@ -12,8 +12,8 @@ function test_input($data)
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $username = isset($_POST["username"]) ? test_input($_POST["username"]) : '';
-    $password =  isset($_POST["password"]) ? test_input($_POST["password"]) : '';
+    $username = test_input($_POST["username"]) ?? '';
+    $password = test_input($_POST["password"]) ?? '';
     $error_user = $error_pass = "";
     if (empty($username) || empty($password)) {
         if (empty($username)) {
@@ -48,38 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="login.css">
-    <style>
-        .error {
-            color: red;
-        }
-
-        .formBtn {
-            width: 50%;
-            background-color: #0066cc;
-            color: white;
-            font-size: 16px;
-            padding: 12px 24px;
-            margin: 10px 5px;
-            text-align: center;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 200px;
-        }
-
-        #login {
-            margin-top: 5rem;
-            text-align: center;
-        }
-
-        .formBtn:hover {
-            background-color: #0099ff;
-        }
-
-        .formBtn a {
-            color: white;
-            text-decoration: none;
-        }
-    </style>
+    
 
 
 </head>

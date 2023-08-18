@@ -61,6 +61,12 @@ a:hover {
     display: flex; 
     /* justify-content: center;  */
 }
+.success {
+    color: green;
+}
 
+.error {
+    color: red;
+}
 
 

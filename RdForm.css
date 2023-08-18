@@ -3,6 +3,7 @@ h1 {
     color: #0066cc;
     margin-top: 20px;
 }
+
 form {
     max-width: 400px;
     margin: 20px auto;
@@ -11,18 +12,21 @@ form {
     border-radius: 5px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
+
 label {
     display: block;
     margin-bottom: 10px;
     color: #666;
 }
+
 input[type="number"] {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+
 input[type="submit"] {
     width: 100%;
     background-color: #0066cc;
@@ -32,11 +36,13 @@ input[type="submit"] {
     border-radius: 5px;
     cursor: pointer;
 }
+
 input[type="submit"]:hover {
     background-color: #0099ff;
 }
+
 .formBtn {
- background-color: #0066cc;
+    background-color: #0066cc;
     color: white;
     padding: 10px 20px;
     margin: 10px 5px;
@@ -45,16 +51,35 @@ input[type="submit"]:hover {
     border-radius: 4px;
     cursor: pointer;
 }
+
 .formBtn:hover {
 
     background-color: #0099ff;
 }
+
 .formBtn a {
     color: white;
     text-decoration: none;
 }
+
 .button-container {
     display: flex;
     margin: 40px 0;
-    justify-content: center; 
+    justify-content: center;
+}
+
+.success {
+    color: green;
+}
+
+.error {
+    color: red;
+}
+
+.intrest_result {
+    text-align: center;
+}
+
+.intrest_result h3 {
+    color: lightseagreen;
 }

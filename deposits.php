@@ -1,8 +1,4 @@
-<?php
-    // header("Cache-Control: no-cache, no-store, must-revalidate");
-    // header("Pragma: no-cache");
-    // header("Expires: 0");
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,8 +16,8 @@
 <div id="container">
     <h2>Select deposit</h2>
     <div class="button-container">
-        <div><span class="formBtn"><a href="rd_deposits.php">RD Deposits</a></span></div>
-        <div><span class="formBtn"><a href="fd_deposits.php">FD Deposits</a></span></div>
+        <div><span class="formBtn"><a href="RdDeposits.php">RD Deposits</a></span></div>
+        <div><span class="formBtn"><a href="FdDeposits.php">FD Deposits</a></span></div>
     </div>
 </div>
 <div class="button-container2">

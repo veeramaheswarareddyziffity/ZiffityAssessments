@@ -38,9 +38,9 @@ function validatingPassword($password)
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["individual_submit"])) {
-        $password = isset($_POST['individual_password']) ? test_input($_POST['individual_password']) : '';
-        $username = isset($_POST['individual_username']) ? test_input($_POST['individual_username']) : '';
-        $ind_balance = isset($_POST['individual_balance']) ? test_input($_POST['individual_balance']) : '';
+        $password =   test_input($_POST['individual_password']) ?? '';
+        $username =   test_input($_POST['individual_username']) ?? '';
+        $ind_balance =  test_input($_POST['individual_balance']) ?? '';
         $error_user =  $error_pass = $error_bal = $success = $error = '';
         if (empty($username) || empty($password) || empty($ind_balance)) {
             if (empty($username)) {
@@ -82,11 +82,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 
     if (isset($_POST["joint_submit"])) {
-        $username1 = isset($_POST['user1_username']) ? test_input($_POST['user1_username']) : '';
-        $password1 = isset($_POST['user1_password']) ? test_input($_POST['user1_password']) : '';
-        $username2 = isset($_POST['user2_username']) ? test_input($_POST['user2_username']) : '';
-        $password2 = isset($_POST['user2_password']) ? test_input($_POST['user2_password']) : '';
-        $joint_balance = isset($_POST['joint_balance']) ? test_input($_POST['joint_balance']) : '';
+        $username1 =  test_input($_POST['user1_username']) ?? '';
+        $password1 =  test_input($_POST['user1_password']) ?? '';
+        $username2 =  test_input($_POST['user2_username']) ?? '';
+        $password2 =  test_input($_POST['user2_password']) ?? '';
+        $joint_balance = test_input($_POST['joint_balance']) ?? '';
 
         $error_user1 = $error_user2 = $error_pass1 = $error_pass2 = $error_balj = $successj = $errorj = "";
         if (empty($username1) || empty($password1) || empty($username2) || empty($password2) || empty($joint_balance)) {
@@ -150,50 +150,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Page</title>
     <link rel="stylesheet" href="signup.css">
-    <style>
-        .error {
-            color: red;
-        }
-        .result_container {
-            margin-top: 20px;
-            margin-left: 10px;
-            font-size: large;
-            color: green;
-        }
-        .success a {
-            text-decoration: none;
-        }
-        input[type="number"] {
-            width: 90%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        .formBtn {
-            width: 50%;
-            background-color: #0066cc;
-            color: white;
-            font-size: 16px;
-            padding: 12px 24px;
-            margin: 10px 5px;
-            text-align: center;
-            border-radius: 4px;
-            cursor: pointer;
-            width: 200px;
-        }
-        #login {
-            margin-top: 5rem;
-            text-align: center;
-        }
-        .formBtn:hover {
-            background-color: #0099ff;
-        }
-        .formBtn a {
-            color: white;
-            text-decoration: none;
-        }
-    </style>
+    
 
 
 </head>
@@ -208,7 +165,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <fieldset>
                     <legend>Individual Account</legend>
                     <label for="individual_username">Username:</label>
-                    <input type="text" id="individual_username" name="individual_username"><br>
+                    <input type="text" id="individual_username" name="individual_username"  ><br>
                     <span class="error"><?php echo $error_user; ?></span>
                     <label for="individual_password">Password:</label>
                     <input type="password" id="individual_password" name="individual_password"><br>

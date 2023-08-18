@@ -32,6 +32,36 @@ input[type="submit"] {
 input[type="submit"]:hover {
     background-color: #0056b3;
 }
+.error {
+    color: red;
+}
+
+.formBtn {
+    width: 50%;
+    background-color: #0066cc;
+    color: white;
+    font-size: 16px;
+    padding: 12px 24px;
+    margin: 10px 5px;
+    text-align: center;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 200px;
+}
+
+#login {
+    margin-top: 5rem;
+    text-align: center;
+}
+
+.formBtn:hover {
+    background-color: #0099ff;
+}
+
+.formBtn a {
+    color: white;
+    text-decoration: none;
+}
 
 /* .error{
     color: red;

@@ -27,3 +27,14 @@ header {
 .btn:hover {
     background-color: #0056b3;
 }
+body {
+    background-color: #f2f2f2;
+
+}
+
+header {
+    background-color: blue;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
