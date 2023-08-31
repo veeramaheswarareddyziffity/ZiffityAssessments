@@ -1,7 +1,6 @@
 <?php
 
 class DBConnection {
-
     private static $host = 'localhost';
     private static $username = 'root';
     private static $password = 'Ziffity@123';

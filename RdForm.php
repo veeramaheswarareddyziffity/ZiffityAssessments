@@ -1,32 +1,25 @@
 <?php
-require 'user.php';
+require 'User.php';
 
 session_start();
-
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $userId = $_SESSION['user_id'];
-
     $monthlyAmount = $_POST['monthly_amount'];
     $durationInMonths = $_POST['duration_in_months'];
-
     $balance = new User();
     $accountBalance = $balance->getUserAccountBalance($userId);
     if ($accountBalance < $monthlyAmount) {
         $error = "Insufficient balance";
     } else {
         $recurringDeposit = new User();
-
         $result = $recurringDeposit->createRecurringDeposit($userId, $monthlyAmount, $durationInMonths);
-
         if ($result) {
             $intrest = new User();
-
             $intrestRateAmount = $intrest->calculateRdIntrestRate($monthlyAmount, $durationInMonths);
-
             $intrestAmount = $intrestRateAmount[0];
             $intrestRate = $intrestRateAmount[1];
             $success = "Recurring Deposit Account Created Successfully";
@@ -44,7 +37,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <title>Create Recurring Deposit Account</title>
     <link rel="stylesheet" href="RdForm.css">
-    
 </head>
 
 <body>
@@ -58,26 +50,23 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <input type="submit" value="Create RD Account">
             <span class="success"><?php echo $success; ?></span>
             <span class="error"><?php echo $error; ?></span>
-
         </form>
         <div>
             <div class="intrest_result">
-                <?php
-                if ($result) {
+                <?php if ($result) : ?>
 
-                    echo "<h3>Based on your data</h3>";
-                    echo "Intrest Rate : " . $intrestRate . "</p><p>" . "Intrest Amount : " . $intrestAmount . "</p>";
-                }
-                ?>
+                    <h3>Based on your data</h3>
+                    <p>Intrest Rate : <?= $intrestRate ?> </p>
+                    <p>Intrest Amount : <?= $intrestAmount ?></p>
+
+                <?php endif; ?>
             </div>
         </div>
         <div class="button-container">
             <div><span class="formBtn"><a href="dashboard.php">Home</a></span> </div>
             <div><span class="formBtn"><a href="logout.php">Log out</a></span> </div>
-
         </div>
     </div>
-
     <script type="text/javascript">
         window.history.forward();
 
@@ -85,9 +74,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             window.history.forward();
         }
     </script>
-
-
-
 </body>
 
 </html>

@@ -1,7 +1,10 @@
 <?php
 
-require 'user.php';
+require 'User.php';
+require 'AccountData.php';
 
+$userAccount = new AccountData();
+$isUsernameAvailable = $userAccount->isUsernameAvailable($username);
 
 function test_input($data)
 {
@@ -10,31 +13,16 @@ function test_input($data)
     $data = htmlspecialchars($data);
     return $data;
 }
-
-function isUsernameAvailable($username)
-{
-    $conn = DBConnection::getConnection();
-    $stmt = $conn->prepare("SELECT username FROM users WHERE username = ?");
-    $stmt->bind_param("s", $username);
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $stmt->close();
-
-    $conn->close();
-    return $result->num_rows > 0;
-}
 function validatingUsername($username)
 {
     $pattern = '/^[a-zA-Z0-9_]+$/';
     return preg_match($pattern, $username);
 }
-
 function validatingPassword($password)
 {
     $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/';
     return preg_match($pattern, $password);
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     if (isset($_POST["individual_submit"])) {
@@ -53,23 +41,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $error_bal = "Fill the balance";
             }
         } else {
-
-
             if (!validatingUsername($username)) {
-
                 $error_user = "Username is not valid.";
             } elseif (!validatingPassword($password)) {
-
                 $error_pass = "Password doesnt satisfy the norms";
             } elseif ($ind_balance < 500) {
                 $error_bal = "enter a valid amount";
-            } elseif (!isUsernameAvailable($username)) {
+            } elseif (!$isUsernameAvailable) {
                 $account_type = "single";
-
                 $signUp = new User();
-
                 $result = $signUp->signup($username, $password, $account_type, $ind_balance);
-
                 if ($result) {
                     $success = 'Signup successful!.Please <a href = "login.php"> login</a> to continue. ';
                 } else {
@@ -87,7 +68,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $username2 =  test_input($_POST['user2_username']) ?? '';
         $password2 =  test_input($_POST['user2_password']) ?? '';
         $joint_balance = test_input($_POST['joint_balance']) ?? '';
-
         $error_user1 = $error_user2 = $error_pass1 = $error_pass2 = $error_balj = $successj = $errorj = "";
         if (empty($username1) || empty($password1) || empty($username2) || empty($password2) || empty($joint_balance)) {
             if (empty($username1)) {
@@ -118,18 +98,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $error_balj = "enter a valid amount";
             } else {
                 $account_type = "joint";
-
-                if (isUsernameAvailable($username1)) {
+                if ($isUsernameAvailable) {
                     $error_user1 = " username1 are already taken. Please choose different username.";
                 }
-                if (isUsernameAvailable($username2)) {
+                if ($isUsernameAvailable) {
                     $error_user2 = " username2 are already taken. Please choose different username.";
                 } else {
-
                     $signUp1 = new User();
                     $result1 = $signUp1->signup($username1, $password1, $account_type, $joint_balance, $username2, $password2);
-
-
                     if ($result1) {
                         $successj = 'Joint Account Signup successful!. Please <a href="login.php">login</a> to continue.';
                     } else {
@@ -150,22 +126,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Signup Page</title>
     <link rel="stylesheet" href="signup.css">
-    
-
-
 </head>
 
-
 <body>
-
     <h1>Signup</h1>
     <div class="signup-container">
         <div class="account-section" id="ind_account">
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"  method="POST">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                 <fieldset>
                     <legend>Individual Account</legend>
                     <label for="individual_username">Username:</label>
-                    <input type="text" id="individual_username" name="individual_username"  ><br>
+                    <input type="text" id="individual_username" name="individual_username"><br>
                     <span class="error"><?php echo $error_user; ?></span>
                     <label for="individual_password">Password:</label>
                     <input type="password" id="individual_password" name="individual_password"><br>
@@ -173,9 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <label for="individual_balance">Balance:</label>
                     <input type="number" id="individual_balance" name="individual_balance"><br>
                     <span class="error"><?php echo $error_bal; ?></span>
-
                 </fieldset>
-
                 <div class="account-buttons">
                     <input type="submit" name="individual_submit" value="Create Individual Account">
                 </div>
@@ -187,7 +156,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </div>
 
         <div class="account-section" id="join_account">
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"  method="POST">
+            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
                 <fieldset>
                     <legend>Joint Account</legend>
                     <label for="user1_username">Username1:</label>
@@ -205,9 +174,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <label for="joint_balance">Balance:</label>
                     <input type="number" id="joint_balance" name="joint_balance"><br>
                     <span class="error"><?php echo $error_balj; ?></span>
-
                 </fieldset>
-
                 <div class="account-buttons">
                     <input type="submit" name="joint_submit" value="Create Joint Account">
                 </div>
@@ -216,21 +183,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <span class="error"><?php echo $errorj; ?></span>
                 </div>
             </form><br>
-
         </div>
-
     </div>
-    <div id="login"><span class="formBtn"><a href="login.php" >Login</a></span> 
-    <span class="formBtn"><a href="index.php" >Index</a></span> 
+    <div id="login"><span class="formBtn"><a href="login.php">Login</a></span>
+        <span class="formBtn"><a href="index.php">Index</a></span>
     </div>
 
     <script type="text/javascript">
-    window.history.forward();
-
-    function noBack() {
         window.history.forward();
-    }
-</script>
+        function noBack() {
+            window.history.forward();
+        }
+    </script>
 </body>
 
 </html>

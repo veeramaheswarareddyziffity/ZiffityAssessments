@@ -1,6 +1,5 @@
 <?php
-require 'user.php';
-
+require 'User.php';
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
@@ -10,27 +9,19 @@ if (!isset($_SESSION['user_id'])) {
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $success = $error = "";
     $userId = $_SESSION['user_id'];
-
     $amount = $_POST['amount'];
     $durationInMonths = $_POST['duration'];
-
     $balance = new User();
     $accountBalance = $balance->getUserAccountBalance($userId);
     if ($accountBalance < $amount) {
         $error = "Insufficient balance";
     } else {
-
         $fixedDeposit = new User();
-
         $result = $fixedDeposit->createFixedDeposit($userId, $amount, $durationInMonths);
-
         // echo $result;
         if ($result) {
             $fdIntrest = new User();
-
-
             $intrestRateAmount = $fdIntrest->calculateFdInterestRate($amount, $durationInMonths);
-
             $intrestAmount = $intrestRateAmount[0];
             $intrestRate = $intrestRateAmount[1];
             $success = "Fixed Deposit Account Created Successfully";
@@ -40,7 +31,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         }
     }
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -52,9 +42,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="FdForm.css">
-    
 </head>
-
 <body>
     <div class="container">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
@@ -86,12 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     <script type="text/javascript">
         window.history.forward();
-
         function noBack() {
             window.history.forward();
         }
     </script>
-
 </body>
-
 </html>

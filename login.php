@@ -1,8 +1,7 @@
 <?php
+// error_reporting(E_ALL);ini_set('display_errors', 1);
 session_start();
-require 'user.php';
-
-
+require 'User.php';
 function test_input($data)
 {
     $data = trim($data);
@@ -23,11 +22,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $error_pass = "fill the password";
         }
     } else {
-
         $login = new User();
-
         $userId = $login->login($username, $password);
-
         if ($userId) {
             $_SESSION["user_id"] = $userId;
             header("Location: dashboard.php");
@@ -38,21 +34,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="login.css">
-    
-
-
 </head>
-
 <body>
     <div class="login-container">
         <h1>Login</h1>
@@ -70,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <span class="formBtn"><a href="index.php" >Index</a></span>  </div>
     <script type="text/javascript">
         window.history.forward();
-
         function noBack() {
             window.history.forward();
         }

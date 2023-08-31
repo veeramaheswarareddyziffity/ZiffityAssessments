@@ -1,5 +1,7 @@
 <?php
-require 'user.php';
+// error_reporting(E_ALL);ini_set('display_errors', 1);
+require 'User.php';
+require 'AccountData.php';
 
 // Check if the user is logged in
 session_start();
@@ -9,55 +11,11 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $userId = $_SESSION['user_id'];
-
 $user = new User();
 $accountType = $user->getAccountType($userId);
+$historyData  = new AccountData();
+$fd_history = $historyData->getFixedDeposits($userId,$accountType);
 
-function getFixedDeposits($userId,$accountType){
-    $conn = DBConnection::getConnection();
-
-    if($accountType === 'single'){
-
-        $query = "SELECT user_id,principal_amount,interest_rate,intrest_amount,maturity_amount,duration_in_months,created_at FROM fixed_deposits WHERE user_id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("i",$userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $fd_history[] = $row;
-        }
-        $stmt->close();
-        
-    }
-    elseif($accountType === 'joint'){
-        $query = "SELECT user1_id,user2_id FROM joint_accounts WHERE user1_id = ? OR user2_id = ?";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii",$userId,$userId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if($result->num_rows > 0){
-            $row = $result->fetch_assoc();
-            $userId1 = $row['user1_id'];
-            $userId2 = $row['user2_id'];
-        }
-        $stmt->close();
-        
-        $query = "SELECT user_id,principal_amount,interest_rate,intrest_amount,maturity_amount,duration_in_months,created_at FROM fixed_deposits WHERE user_id IN (?,?)";
-        $stmt = $conn->prepare($query);
-        $stmt->bind_param("ii",$userId1,$userId2);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        while ($row = $result->fetch_assoc()) {
-            $fd_history[] = $row;
-        }
-        $stmt->close();
-        
-
-
-    }
-    return $fd_history;
-
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,36 +27,38 @@ function getFixedDeposits($userId,$accountType){
     <link rel="stylesheet" href="table.css">
 </head>
 <body>
-<h2>Fixed Deposits</h2>
-    
-<?php
-$details = getFixedDeposits($userId,$accountType);
+<?php if (isset($fd_history['error'])): ?>
+        <p><?php echo $fd_history['error']; ?></p>
+    <?php else: ?>
+        <h2>Fixed Deposit History</h2>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>Principal Amount</th>
+                <th>Interest Rate</th>
+                <th>Interest Amount</th>
+                <th>Maturity Amount</th>
+                <th>Duration in Months</th>
+                <th>Created At</th>
+            </tr>
+            <?php foreach ($fd_history as $fd): ?>
+                <tr>
+                    <td><?php echo $fd['user_id']; ?></td>
+                    <td><?php echo $fd['principal_amount']; ?></td>
+                    <td><?php echo $fd['interest_rate']; ?></td>
+                    <td><?php echo $fd['intrest_amount']; ?></td>
+                    <td><?php echo $fd['maturity_amount']; ?></td>
+                    <td><?php echo $fd['duration_in_months']; ?></td>
+                    <td><?php echo $fd['created_at']; ?></td>
+                </tr>
+            <?php endforeach; ?>
+        </table>
+    <?php endif; ?>
 
-if (!empty($details)) {
-   
-    echo '<table>';
-    echo '<tr><th>User ID</th><th>Principal_amount</th><th>Intrest_Rate</th><th>Maturity_Amount</th><th>Duration(in months)</th><th>Created_at</th></tr>';
-    foreach ($details as $fd) {
-        echo '<tr>';
-        echo '<td>' . $fd['user_id'] . '</td>';
-        echo '<td>' . $fd['principal_amount'] . '</td>';
-        echo '<td>' . $fd['interest_rate'] . '</td>';
-        echo '<td>' . $fd['maturity_amount'] . '</td>';
-        echo '<td>' . $fd['duration_in_months'] . '</td>';
-        echo '<td>' . $fd['created_at'] . '</td>';
-        echo '</tr>';
-    }
-    echo '</table>';
-} 
-else {
-    echo 'No Fixed Deposits found.';
-}
-?>
  <div class="button-container">
         <div><span class="formBtn"><a href="dashboard.php">Home</a></span> </div>
         <div><span class="formBtn"><a href="deposits.php">Deposits</a></span> </div>
         <div><span class="formBtn"><a href="logout.php">Log out</a></span> </div>
-        
     </div>
     <script type="text/javascript">
     window.history.forward();

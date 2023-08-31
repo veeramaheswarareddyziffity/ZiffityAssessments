@@ -1,6 +1,8 @@
 <?php
+// error_reporting(E_ALL);ini_set('display_errors', 1);
 session_start();
-require 'user.php';
+require 'User.php';
+require 'AccountData.php';
 
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
@@ -8,63 +10,15 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 $userId = $_SESSION['user_id'];
-
 $user = new User();
-
 $accountType = $user->getAccountType($userId);
-
-// to display individual account details
-function displayIndividualAccount($userId)
-{
-    $conn = DBConnection::getConnection();
-    $stmt = $conn->prepare("SELECT id,account_number,balance FROM ind_accounts WHERE user_id = ?");
-    $stmt->bind_param("i", $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $accountId = $row['id'];
-        $accountNumber = $row['account_number'];
-        $balance = $row['balance'];
-
-        echo "Account Id: $accountId <br>";
-        echo "Account Type: single <br>";
-        echo "Account Number: $accountNumber<br>";
-        echo "Balance : $balance";
-        
-    } else {
-        echo "No individual account details found for this user.";
-    }
-    $stmt->close();
+$accountInfo = new AccountData();
+if($accountType === "single"){
+    $customerData = $accountInfo->displayIndividualAccount($userId);
 }
-
-//to display joint account details
-
-function displayJointAccount($userId)
-{
-    $conn = DBConnection::getConnection();
-    $stmt = $conn->prepare("SELECT id,account_number,balance FROM joint_accounts WHERE user1_id = ? OR user2_id = ?");
-    $stmt->bind_param("ii", $userId, $userId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $accountId = $row['id'];
-        $accountNumber = $row['account_number'];
-        $balance = $row['balance'];
-
-        echo "Account Id: $accountId <br>";
-        echo "Account Type: Joint Account<br>";
-        echo "Account Number: $accountNumber<br>";
-        echo "Balance : $balance";
-    } else {
-        echo "No joint account details found for this user.";
-    }
-    $stmt->close();
+if($accountType === "joint"){
+    $customerData = $accountInfo->displayJointAccount($userId);
 }
-
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $depoSucc = $depoErr = "";
@@ -76,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         } else {
             $depositMoney = new User();
             $result = $depositMoney->depositMoney($userId, $depositAmount);
-
             if ($result) {
                 $depoSucc = "deposit of $depositAmount was successful";
             } else {
@@ -86,25 +39,18 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
     if (isset($_POST["withdraw_submit"])) {
         $withdrawAmount = $_POST['withdraw_amount'];
-
         $balance = new User();
         $accountBalance = $balance->getUserAccountBalance($userId);
-
         $remainingBalance = $accountBalance - $withdrawAmount;
-
         if ($accountBalance < $withdrawAmount) {
             $withErr = "Insufficient balance";
         } elseif ($withdrawAmount <= 0) {
-            $withErr = "Enter the valid ampount";
+            $withErr = "Enter the valid amount";
         } elseif ($remainingBalance < 500) {
             $withErr = "Failed : The entered amount is below the minimum required.";
         } else {
             $withdrawMoney = new User();
-
-
             $result = $withdrawMoney->withdrawMoney($userId, $withdrawAmount);
-
-
             if ($result) {
                 $withSucc = "withdraw of $withdrawAmount was successful";
             } else {
@@ -114,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     }
 }
 
-
 ?>
 
 <!DOCTYPE html>
@@ -123,23 +68,21 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <title>Dashboard</title>
     <link rel="stylesheet" href="dashboard.css">
-
 </head>
-
 <body>
     <h1>Welcome to our Bank</h1>
-    <?php
-    // display account details 
-    if ($accountType === 'single') {
-        displayIndividualAccount($userId);
-    }
-    if ($accountType === 'joint') {
-        displayJointAccount($userId);
-    }
-    ?>
-
+    <?php if ($customerData === null): ?>
+        <p>No individual account details found for this user.</p>
+    <?php elseif (isset($customerData['error'])): ?>
+        <p>An error occurred: <?= $customerData['error']; ?></p>
+    <?php else: ?>
+        <p>Account Id: <?= $customerData['accountId']; ?></p>
+        <p>Account Type: <?= $customerData['accountType']; ?></p>
+        <p>Account Number: <?= $customerData['accountNumber']; ?></p>
+        <p>Balance: <?= $customerData['balance']; ?></p>
+    <?php endif; ?>
+    
     <h3>Deposite : </h3>
-
     <div class="form-container" id="depositForm">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
             <label for="deposit_amount">Deposit Amount:</label>
