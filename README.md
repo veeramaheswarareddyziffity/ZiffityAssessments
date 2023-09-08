@@ -8,8 +8,7 @@ ETA: 24h
     3. Include the Magento Form Validation.
     4.  After submitting the form data to the database table ,the page will redirect to the home page and display the succes message.
     5. Create a “Customer Feedback” tab under customer menu in admin panel.
-    6. Implement the grid view to display the Submitted feedback data with sorting,searching and pagination. 
-       
+    6. Implement the grid view to display the Submitted feedback data with sorting,searching and pagination.    
 # TASK 2 :	
     1. Create a two buttons  “approve” and “Decline” in the admin grid for feedback records and also create a controller action for these two buttons. 
     2. Configure the magento to send emails to based on the approval/decline actions by admin .
