@@ -1,0 +1,7 @@
+<form method="post" action="<?= $block->getFormAction() ?>">
+    <div>
+        <label for="feedback"><?= __("Feedback") ?></label>
+        <textarea name="feedback" class="input-text" data-validate="{required:true}"></textarea>
+    </div>
+    <input type="submit" value="<?= __("Submit") ?>" />
+</form>
