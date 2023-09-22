@@ -15,7 +15,7 @@ class TrackingCart
 
 
     /**
-     * @param PublisherInterface $publisher
+     * @param PublisherInterface  $publisher
      * @param SerializerInterface $serializer
      */
 
@@ -28,7 +28,7 @@ class TrackingCart
     }
 
     /**
-     * @param array $data
+     * @param  array $data
      * @return mixed|null
      */
     

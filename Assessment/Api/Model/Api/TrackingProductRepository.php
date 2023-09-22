@@ -11,24 +11,24 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
 {
 
      /**
-     * @var ProductDataInterfaceFactory
-     */
+      * @var ProductDataInterfaceFactory
+      */
     private $productDataInterfaceFactory;
 
      /**
-     * @var CollectionFactory
-     */
+      * @var CollectionFactory
+      */
 
     private $collectionFactory;
 
      /**
-     * @var TrackingProductModel
-     */
+      * @var TrackingProductModel
+      */
     private $model;
 
       /**
-     * @var TrackingProductResource
-     */
+       * @var TrackingProductResource
+       */
 
      private $resource;
 
@@ -46,8 +46,8 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
         $this->resource = $resource;
     }
     /**
-     * @param int|null $pageId
-     * @return \Assessment\Api\Api\DataInterface[]
+     * @param  int|null $pageId
+     * @return \Assessment\Api\Api\ProductDataInterface[]
      */
     public function getApiData(int $pageId = null)
     {
@@ -59,32 +59,33 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
         try {
                 $collection = $this->collectionFactory->create()->setPageSize(10)->setCurPage($pageId);
 
-                foreach ($collection as $item) {
+            foreach ($collection as $item) {
+                $data1=['id'=>$item->getId(),
+                'sku'=>$item->getSku(),
+                'quote_id'=>$item->getQuoteId(),
+                'customer_id'=>$item->getCustomerId(),
+                'created_at'=>$item->getCreated()
 
-                    $model = $this->model->create();
-                    $model->setId($item->getId());
-                    $model->setSku($item->getSku());
-                    $model->setQuoteId($item->getQuoteId());
-                    $model->setCustomerId($item->getCustomerId());
-                    $model->setCreated($item->getCreated());
-                    $data[] = $model;
-                }
+            ];
+                $data[]=$data1;
+            }
+
                 return $data;
 
 
-            } catch (LocalizedException $e) {
-                throw $e;
-            }
+        } catch (LocalizedException $e) {
+            throw $e;
+        }
 
     }
 
 
      /**
-     * @param string $sku
-     * @param int $quoteId
-     * @param int $customerId
-     * @return \Assessment\Api\Api\ProductDataInterface[]
-     */
+      * @param  string $sku
+      * @param  int    $quoteId
+      * @param  int    $customerId
+      * @return \Assessment\Api\Api\ProductDataInterface[]
+      */
     public function save(string $sku, int $quoteId, int $customerId = null)
     {
 
@@ -105,9 +106,9 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
 
 
      /**
-     * @param int $id
-     * @return \Assessment\Api\Api\ProductDataInterface[]
-     */
+      * @param  int $id
+      * @return \Assessment\Api\Api\ProductDataInterface[]
+      */
 
     public function getById(int $id)
     {
@@ -127,19 +128,19 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
 
 
      /**
-     * @param string $id
-     * @param string $sku
-     * @param int $quoteId
-     * @param int $customerId
-     * @return \Assessment\Api\Api\ProductDataInterface[]
-     */
+      * @param  string $id
+      * @param  string $sku
+      * @param  int    $quoteId
+      * @param  int    $customerId
+      * @return \Assessment\Api\Api\ProductDataInterface[]
+      */
     public function update(int $id, string $sku , int $quoteId = null, int $customerId = null )
     {
 
 
         $model = $this->model->create();
         $this->resource->load($model, $id, 'id');
-        if(!$model->getData()){
+        if(!$model->getData()) {
             return ['success' => 'ID is not Available'];
         }
         if ($sku != null) {
@@ -170,7 +171,7 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
 
 
     /**
-     * @param string $id
+     * @param  string $id
      * @return \Assessment\Api\Api\DataInterface
      */
 
@@ -180,7 +181,7 @@ class TrackingProductRepository implements  TrackingProductRepositoryInterface
         $model = $this->model->create();
         $this->resource->load($model, $id, 'id');
 
-        if(!$model->getData()){
+        if(!$model->getData()) {
             return ['success' => 'ID is not Available'];
         }
         try {

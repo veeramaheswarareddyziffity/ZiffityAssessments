@@ -17,7 +17,7 @@ class ProductData extends DataObject implements ProductDataInterface
     }
 
     /**
-     * @param int $id
+     * @param  int $id
      * @return $this
      */
 
@@ -36,7 +36,7 @@ class ProductData extends DataObject implements ProductDataInterface
     }
 
     /**
-     * @param string $sku
+     * @param  string $sku
      * @return $this
      */
 
@@ -56,7 +56,7 @@ class ProductData extends DataObject implements ProductDataInterface
     }
 
     /**
-     * @param string $customerid
+     * @param  string $customerid
      * @return $this
      */
 
@@ -75,7 +75,7 @@ class ProductData extends DataObject implements ProductDataInterface
     }
 
     /**
-     * @param string $quoteid
+     * @param  string $quoteid
      * @return $this
      */
 
@@ -95,7 +95,7 @@ class ProductData extends DataObject implements ProductDataInterface
     }
 
     /**
-     * @param string $created
+     * @param  string $created
      * @return $this
      */
 

@@ -20,8 +20,8 @@ class TrackingCart implements ObserverInterface
 
     /**
      *
-     * @param Session $checkoutSession
-     * @param Publisher $publisher
+     * @param Session         $checkoutSession
+     * @param Publisher       $publisher
      * @param LoggerInterface $logger
      */
     public function __construct(
@@ -37,7 +37,7 @@ class TrackingCart implements ObserverInterface
     /**
      * Observe and execute add to cart event
      *
-     * @param Observer $observer
+     * @param  Observer $observer
      * @return void
      */
     

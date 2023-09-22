@@ -11,7 +11,7 @@ interface ProductDataInterface
     public function getId();
 
     /**
-     * @param int $id
+     * @param  int $id
      * @return $this
      */
 
@@ -24,7 +24,7 @@ interface ProductDataInterface
     public function getSku();
 
     /**
-     * @param string $sku
+     * @param  string $sku
      * @return $this
      */
 
@@ -36,7 +36,7 @@ interface ProductDataInterface
     public function getQuoteId();
 
     /**
-     * @param string $quoteid
+     * @param  string $quoteid
      * @return $this
      */
 
@@ -49,7 +49,7 @@ interface ProductDataInterface
     public function getCustomerId();
 
     /**
-     * @param string $customerid
+     * @param  string $customerid
      * @return $this
      */
 
@@ -62,7 +62,7 @@ interface ProductDataInterface
     public function getCreated();
 
     /**
-     * @param string $created
+     * @param  string $created
      * @return $this
      */
 

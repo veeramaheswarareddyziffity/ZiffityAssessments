@@ -8,11 +8,11 @@ class Collection extends AbstractCollection
     
 
     protected function _construct()
-{
-    $this->_init(
-        \Assessment\Api\Model\TrackingProduct::class,
-        \Assessment\Api\Model\ResourceModel\TrackingProduct::class
-    );
-}
+    {
+        $this->_init(
+            \Assessment\Api\Model\TrackingProduct::class,
+            \Assessment\Api\Model\ResourceModel\TrackingProduct::class
+        );
+    }
 
 }
