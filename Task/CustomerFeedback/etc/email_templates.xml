@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
-    <template id="email_accept_template" label="Feedback Acceptance" file="email_accept_template.html" type="html" module="Task_CustomerFeedback" area="adminhtml"/>
-     <template id="email_reject_template" label="Feedback Rejection" file="email_reject_template.html" type="html" module="Task_CustomerFeedback" area="adminhtml"/>
-     <template id="email_save_template" label="Feedback save Email" file="email_save_template.html" type="html" module="Task_CustomerFeedback" area="adminhtml"/>
-     <!-- <template id="email_notify_template" label="Admin Feedback Notification" file="email_notify_template.html" type="html" module="Task_CustomerFeedback" area="adminhtml"/> -->
-</config>
