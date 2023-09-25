@@ -11,11 +11,19 @@ use Psr\Log\LoggerInterface;
 
 class TrackingCart implements ObserverInterface
 {
-    
+    /**
+     * @var checkoutSession
+     */
     private $checkoutSession;
-    
+
+    /**
+     * @var publisher
+     */
     private $publisher;
-   
+
+   /**
+     * @var logger
+     */
     private $logger;
 
     /**
@@ -43,7 +51,6 @@ class TrackingCart implements ObserverInterface
     
     public function execute(Observer $observer)
     {
-        // dd("hello");
         try {
             $sku = $observer->getProduct()->getSku();
             $quote = $this->checkoutSession->getQuote();

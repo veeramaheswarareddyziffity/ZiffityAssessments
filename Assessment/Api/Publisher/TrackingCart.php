@@ -7,10 +7,16 @@ use Magento\Framework\Serialize\SerializerInterface;
 
 class TrackingCart
 {
-    const TOPIC_NAME ="trackingcart.topic";
+    protected const TOPIC_NAME ="trackingcart.topic";
 
+    /**
+     * @var publisher
+     */
     private $publisher;
 
+    /**
+     * @var serializer
+     */
     private $serializer;
 
 
@@ -34,7 +40,7 @@ class TrackingCart
     
     public function publish(array $data)
     {
-        // dd($data);
-        return $this->publisher->publish(self::TOPIC_NAME, $this->serializer->serialize($data));
+        return $this->publisher
+                    ->publish(self::TOPIC_NAME, $this->serializer->serialize($data));
     }
 }

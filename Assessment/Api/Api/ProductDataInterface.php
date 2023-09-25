@@ -1,70 +1,86 @@
 <?php
 namespace Assessment\Api\Api;
 
+/**
+ * This interface defines methods for managing product data.
+ *
+ * @category Assessment
+ * @package  Assessment\Api\Api
+ */
 interface ProductDataInterface
 {
-
-
     /**
+     * Get the product ID.
+     *
      * @return int
      */
     public function getId();
 
     /**
-     * @param  int $id
+     * Set the product ID.
+     *
+     * @param  int $id The product ID
      * @return $this
      */
-
     public function setId($id);
 
     /**
+     * Get the SKU of the product.
+     *
      * @return string
      */
-
     public function getSku();
 
     /**
-     * @param  string $sku
+     * Set the SKU of the product.
+     *
+     * @param  string $sku The SKU of the product
      * @return $this
      */
-
     public function setSku($sku);
+
     /**
+     * Get the quote ID associated with the product.
+     *
      * @return int
      */
-
     public function getQuoteId();
 
     /**
-     * @param  string $quoteid
+     * Set the quote ID associated with the product.
+     *
+     * @param  int $quoteId 
      * @return $this
      */
-
-    public function setQuoteId($quoteid);
+    public function setQuoteId($quoteId);
 
     /**
+     * Get the customer ID associated with the product.
+     *
      * @return int
      */
-
     public function getCustomerId();
 
     /**
-     * @param  string $customerid
+     * Set the customer ID associated with the product.
+     *
+     * @param  int $customerId 
      * @return $this
      */
-
-    public function setCustomerId($customerid);
+    public function setCustomerId($customerId);
 
     /**
+     * Get the creation date of the product.
+     *
      * @return string
      */
-
     public function getCreated();
 
     /**
-     * @param  string $created
+     * Set the creation date of the product.
+     *
+     * @param  string $created The creation date of the product
      * @return $this
      */
-
     public function setCreated($created);
 }

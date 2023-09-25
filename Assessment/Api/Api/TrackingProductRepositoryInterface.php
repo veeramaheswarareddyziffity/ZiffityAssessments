@@ -1,43 +1,63 @@
 <?php
 namespace Assessment\Api\Api;
 
+/**
+ * This interface defines methods for tracking product repository operations.
+ *
+ * @category Assessment
+ * @package  Assessment\Api\Api
+ */
 interface TrackingProductRepositoryInterface
 {
     /**
-     * @param  int|null $pageId
-     * @return \Assessment\Api\Api\ProductDataInterface[]
+     * Get API data.
+     *
+     * @param int|null $pageId The page ID (optional)
+     *
+     * @return \Assessment\Api\Api\ProductDataInterface[] An array of product data
      */
     public function getApiData(int $pageId = null);
 
-
     /**
-     * @param  string $sku
-     * @param  int    $quoteId
-     * @param  int    $customerId
-     * @return \Assessment\Api\Api\ProductDataInterface[]
+     * Save product data.
+     *
+     * @param string   $sku        The SKU of the product
+     * @param int      $quoteId    The quote ID
+     * @param int|null $customerId The customer ID (optional)
+     *
+     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
      */
     public function save(string $sku, int $quoteId, int $customerId = null);
 
-
     /**
-     * @param  int $id
-     * @return \Assessment\Api\Api\ProductDataInterface[]
+     * Get product data by ID.
+     *
+     * @param int $id The product ID
+     *
+     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
      */
     public function getById(int $id);
 
-     /**
-      * @param  string $id
-      * @param  string $sku
-      * @param  int    $quoteId
-      * @param  int    $customerId
-      * @return \Assessment\Api\Api\ProductDataInterface[]
-      */
-    public function update(int $id, string $sku, int $quoteId, int $customerId = null);
+    /**
+     * Update product data.
+     *
+     * @param int      $id         The product ID
+     * @param string   $sku        The SKU of the product
+     * @param int      $quoteId    The quote ID
+     * @param int|null $customerId The customer ID (optional)
+     *
+     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
+     */
+    public function update(int $id, string $sku, 
+        int $quoteId, int $customerId = null
+    );
 
     /**
-     * @param  string $id
-     * @return \Assessment\Api\Api\ProductDataInterface[]
+     * Delete product data by ID.
+     *
+     * @param int $id The product ID
+     *
+     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
      */
-
     public function delete(int $id);
 }
