@@ -1,13 +1,13 @@
 <?php
 
-namespace Assessment\Api\Model\Api;
+namespace Ziffity\TrackingCart\Model\Api;
 
 use Magento\Framework\Exception\LocalizedException;
-use Assessment\Api\Model\TrackingProductFactory as TrackingProductModel;
-use Assessment\Api\Model\ResourceModel\TrackingProduct as TrackingProductResource;
-use Assessment\Api\Model\ResourceModel\TrackingProduct\CollectionFactory;
-use Assessment\Api\Api\ProductDataInterfaceFactory;
-use Assessment\Api\Api\TrackingProductRepositoryInterface;
+use Ziffity\TrackingCart\Model\TrackingProductFactory as TrackingProductModel;
+use Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct as TrackingProductResource;
+use Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct\CollectionFactory;
+use Ziffity\TrackingCart\Api\ProductDataInterfaceFactory;
+use Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface;
 
 /**
  * Class TrackingProductRepository
@@ -15,7 +15,7 @@ use Assessment\Api\Api\TrackingProductRepositoryInterface;
  * This class represents the repository for tracking products.
  *
  * @category Assessment
- * @package  Assessment\Api\Model\Api
+ * @package  Ziffity\TrackingCart\Model\Api
  */
 class TrackingProductRepository implements TrackingProductRepositoryInterface
 {
@@ -61,7 +61,7 @@ class TrackingProductRepository implements TrackingProductRepositoryInterface
 
     /**
      * @param  int|null $pageId
-     * @return \Assessment\Api\Api\ProductDataInterface[]
+     * @return \Ziffity\TrackingCart\Api\ProductDataInterface[]
      */
     public function getApiData(int $pageId = null)
     {

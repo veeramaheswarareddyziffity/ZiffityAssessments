@@ -1,13 +1,13 @@
 <?php
 
-namespace Assessment\Api\Observer;
+namespace Ziffity\TrackingCart\Observer;
 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Checkout\Model\Session;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Assessment\Api\Publisher\TrackingCart as Publisher;
+use Ziffity\TrackingCart\Publisher\TrackingCart as Publisher;
 use Psr\Log\LoggerInterface;
 
 class TrackingCart implements ObserverInterface

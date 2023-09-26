@@ -1,5 +1,5 @@
 <?php
-namespace Assessment\Api\Api;
+namespace Ziffity\TrackingCart\Api;
 
 /**
  * This interface defines methods for tracking product repository operations.
@@ -14,8 +14,9 @@ interface TrackingProductRepositoryInterface
      *
      * @param int|null $pageId The page ID (optional)
      *
-     * @return \Assessment\Api\Api\ProductDataInterface[] An array of product data
+     * @return array[]
      */
+    
     public function getApiData(int $pageId = null);
 
     /**
@@ -44,7 +45,7 @@ interface TrackingProductRepositoryInterface
      * @param int      $quoteId    The quote ID
      * @param int|null $customerId The customer ID (optional)
      *
-     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
+     * @return array[]
      */
     public function update(int $id, string $sku, 
         int $quoteId, int $customerId = null
@@ -55,7 +56,7 @@ interface TrackingProductRepositoryInterface
      *
      * @param int $id The product ID
      *
-     * @return \Assessment\Api\Api.ProductDataInterface[] An array of product data
+     * @return array[]
      */
     public function delete(int $id);
 }

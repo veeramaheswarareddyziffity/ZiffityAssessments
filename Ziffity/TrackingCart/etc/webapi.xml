@@ -3,35 +3,37 @@
     xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
 
     <route method="GET" url="/V1/tracking-product/api/getlist">
-        <service class="Assessment\Api\Api\TrackingProductRepositoryInterface" method="getApiData" />
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface"
+            method="getApiData" />
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
     <route method="POST" url="/V1/tracking-product/api/save">
-        <service class="Assessment\Api\Api\TrackingProductRepositoryInterface" method="save" />
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="save" />
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
     <route method="GET" url="/V1/tracking-product/api/getid">
-        <service class="Assessment\Api\Api\TrackingProductRepositoryInterface" method="getBySku" />
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface"
+            method="getBySku" />
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
     <route method="POST" url="/V1/tracking-product/api/edit">
-        <service class="Assessment\Api\Api\TrackingProductRepositoryInterface" method="update" />
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="update" />
         <resources>
             <resource ref="anonymous" />
         </resources>
     </route>
 
     <route method="POST" url="/V1/tracking-product/api/delete">
-        <service class="Assessment\Api\Api\TrackingProductRepositoryInterface" method="delete" />
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="delete" />
         <resources>
             <resource ref="anonymous" />
         </resources>

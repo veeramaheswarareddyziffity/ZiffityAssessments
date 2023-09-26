@@ -1,10 +1,10 @@
 <?php
 
-namespace Assessment\Api\Model\ResourceModel\TrackingProduct;
+namespace Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct;
 
 use Magento\Framework\Model\ResourceModel\Db\Collection\AbstractCollection;
-use Assessment\Api\Model\TrackingProduct as TrackingProductModel;
-use Assessment\Api\Model\ResourceModel\TrackingProduct as TrackingProductResourceModel;
+use Ziffity\TrackingCart\Model\TrackingProduct as TrackingProductModel;
+use Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct as TrackingProductResourceModel;
 
 class Collection extends AbstractCollection
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Assessment\Api\Model\ResourceModel;
+namespace Ziffity\TrackingCart\Model\ResourceModel;
 
 use Magento\Framework\Model\ResourceModel\Db\AbstractDb;
 

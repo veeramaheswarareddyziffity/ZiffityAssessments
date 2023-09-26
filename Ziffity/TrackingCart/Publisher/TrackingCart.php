@@ -1,6 +1,6 @@
 <?php
 
-namespace Assessment\Api\Publisher;
+namespace Ziffity\TrackingCart\Publisher;
 
 use Magento\Framework\MessageQueue\PublisherInterface;
 use Magento\Framework\Serialize\SerializerInterface;

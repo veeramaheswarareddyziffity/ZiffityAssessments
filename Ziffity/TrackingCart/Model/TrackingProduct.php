@@ -1,9 +1,9 @@
 <?php
 
-namespace Assessment\Api\Model;
+namespace Ziffity\TrackingCart\Model;
 
 use Magento\Framework\Model\AbstractModel;
-use Assessment\Api\Model\ResourceModel\TrackingProduct as TrackingProductResourceModel;
+use Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct as TrackingProductResourceModel;
 
 class TrackingProduct extends AbstractModel
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Assessment\Api\Consumer;
+namespace Ziffity\TrackingCart\Consumer;
 
 use Magento\Framework\Serialize\SerializerInterface;
-use Assessment\Api\Model\TrackingProductFactory;
-use Assessment\Api\Model\ResourceModel\TrackingProduct as TrackingProductResource;
+use Ziffity\TrackingCart\Model\TrackingProductFactory;
+use Ziffity\TrackingCart\Model\ResourceModel\TrackingProduct as TrackingProductResource;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -12,8 +12,8 @@ use Psr\Log\LoggerInterface;
  *
  * This class is responsible for consuming tracking data for a cart.
  *
- * @category Assessment
- * @package  Assessment\Api\Consumer
+ * @category Ziffity
+ * @package  Ziffity\TrackingCart\Consumer
  */
 class TrackingCart
 {
