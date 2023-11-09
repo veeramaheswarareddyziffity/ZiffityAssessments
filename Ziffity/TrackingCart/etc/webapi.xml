@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+
+    <route method="GET" url="/V1/tracking-product/api/getlist">
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface"
+            method="getApiData" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/tracking-product/api/save">
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="save" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route method="GET" url="/V1/tracking-product/api/getid">
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface"
+            method="getBySku" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/tracking-product/api/edit">
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="update" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+    <route method="POST" url="/V1/tracking-product/api/delete">
+        <service class="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface" method="delete" />
+        <resources>
+            <resource ref="anonymous" />
+        </resources>
+    </route>
+
+</routes>
