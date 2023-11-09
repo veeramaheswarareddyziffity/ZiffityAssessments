@@ -3,6 +3,4 @@
   xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
   <preference for="Ziffity\TrackingCart\Api\TrackingProductRepositoryInterface"
     type="Ziffity\TrackingCart\Model\Api\TrackingProductRepository" />
-  <preference for="Ziffity\TrackingCart\Api\ProductDataInterface"
-    type="Ziffity\TrackingCart\Model\Api\ProductData" />
 </config>
